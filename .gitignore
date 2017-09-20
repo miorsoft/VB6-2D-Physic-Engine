@@ -24,6 +24,8 @@ $RECYCLE.BIN/
 /*.bak
 
 *.exe
+*.zip
+
 
 /ToIgnore
 /Frames
