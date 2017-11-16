@@ -124,13 +124,20 @@ Public Cairo As cCairo    '<- global defs of the two Main-"EntryPoints" into the
 
 
 '************************ TIMING ********************************
-Private Declare Function QueryPerformanceCounter Lib "kernel32" (x As Currency) As Boolean
-Private Declare Function QueryPerformanceFrequency Lib "kernel32" (x As Currency) As Boolean
-Private Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long)
+''Private Declare Function QueryPerformanceCounter Lib "kernel32" (x As Currency) As Boolean
+''Private Declare Function QueryPerformanceFrequency Lib "kernel32" (x As Currency) As Boolean
+''Private Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long)
+''Private m_Time As Double    'DDOUBLE
+''Private m_TimeFreq As Double    'DDOUBLE
+''Private m_TimeStart As Currency
 
-Private m_Time As Double    'DDOUBLE
-Private m_TimeFreq As Double    'DDOUBLE
-Private m_TimeStart As Currency
+
+Public FPSTICK As clsTick
+
+Public tComputed As Long
+Public tDraw As Long
+Public t1Sec As Long
+
 
 
 
@@ -396,9 +403,9 @@ End Function
 Public Sub MAINLOOP()
 
 
-    Dim I      As Long
-    Dim A      As Long
-    Dim B      As Long
+    Dim I As Long
+    Dim A As Long
+    Dim B As Long
 
     '    Dim Accumulator As Long
     '    Dim currTime As Long
@@ -406,82 +413,82 @@ Public Sub MAINLOOP()
     '    frameStart = GetTickCount
 
 
-    Dim pTime  As Double    ''DDOUBLE
+    Dim pTime As Double   ''DDOUBLE
     Dim pTime2 As Double    ''DDOUBLE
 
 
 
-    Timing = 0
-    pTime = Timing
-    pTime2 = Timing
+    '''    Timing = 0
+    '''    pTime = Timing
+    '''    pTime2 = Timing
 
 
     Do
 
-        'currTime = GetTickCount
-        'Accumulator = Accumulator + currTime - frameStart
-        'frameStart = currTime
-        'If Accumulator > 200 Then Accumulator = 200
-        'While Accumulator > 10
-        '    EngineDoSTEP Accumulator * 0.01
-        '    Accumulator = Accumulator - 10
-        'Wend
+        '        'currTime = GetTickCount
+        '        'Accumulator = Accumulator + currTime - frameStart
+        '        'frameStart = currTime
+        '        'If Accumulator > 200 Then Accumulator = 200
+        '        'While Accumulator > 10
+        '        '    EngineDoSTEP Accumulator * 0.01
+        '        '    Accumulator = Accumulator - 10
+        '        'Wend
+        '
+        '
+        '        If Timing - pTime2 >= 2 Then
+        '            FPS = (CNT - pCNT) * 0.5
+        '            pCNT = CNT
+        '            pTime2 = Timing
+        '            frmMain.Caption = "Physic Engine   computed FPS:" & FPS & " DrawnFPS:" & FPS \ DisplayRefreshPeriod
+        '        End If
+        '
+        '
+        '        If ((Timing - pTime) >= 0.001) Then
+        '
+        '            pTime = Timing
 
 
-        If Timing - pTime2 >= 2 Then
-            FPS = (CNT - pCNT) * 0.5
-            pCNT = CNT
-            pTime2 = Timing
-            frmMain.Caption = "Physic Engine   computed FPS:" & FPS & " DrawnFPS:" & FPS \ DisplayRefreshPeriod
-        End If
+        Select Case FPSTICK.WaitForNext
 
-
-        If ((Timing - pTime) >= 0.001) Then
-
-
-
-            pTime = Timing
-
+        Case tComputed
             frmMain.ENGINE.EngineDoSTEP
+        Case tDraw
 
+            '   If CNT Mod DisplayRefreshPeriod = 0 Then
+            frmMain.ENGINE.RenderDRAWRC
 
+            ''                TotalNContacts = 0
+            ''                For I = 1 To NofContactMainFolds
+            ''                    TotalNContacts = TotalNContacts + Contacts(I).contactCount
+            ''                Next
 
-            If CNT Mod DisplayRefreshPeriod = 0 Then
-                'If CNT Mod 25 = 0 Then
-
-                frmMain.ENGINE.RenderDRAWRC
-
-                ''                TotalNContacts = 0
-                ''                For I = 1 To NofContactMainFolds
-                ''                    TotalNContacts = TotalNContacts + Contacts(I).contactCount
-                ''                Next
-
-                If SaveFrames Then
-                    frmMain.ENGINE.RenderSaveJPG App.Path & "\Frames\" & Format(Frame, "00000") & ".jpg"
-                    Frame = Frame + 1
-                End If
-
+            If SaveFrames Then
+                frmMain.ENGINE.RenderSaveJPG App.Path & "\Frames\" & Format(Frame, "00000") & ".jpg"
+                Frame = Frame + 1
             End If
 
-            CNT = CNT + 1
+
+        Case t1Sec
+            frmMain.Caption = "Physic Engine   computed FPS:" & FPSTICK.Count(0) & " DrawnFPS:" & FPSTICK.Count(1)
+            FPSTICK.ResetCount (0)
+            FPSTICK.ResetCount (1)
+
+            
+        End Select
+'            End If
 
 
 
-            'If Rnd < 0.0001 Then
-            'Do
-            'A = 1 + Rnd * (NBodies - 1)
-            'Loop While Body(A).invMass = 0
-            'Do
-            'B = 1 + Rnd * (NBodies - 1)
-            'Loop While Body(B).invMass = 0 Or (A = B)
-            '
-            'JointAddDistanceJ A, B, 60
-            'End If
-        Else
-            ' DoEvents
+        CNT = CNT + 1
 
 
-        End If
+
+
+        '        Else
+        '            ' DoEvents
+        '
+        '
+        '        End If
 
 
 
@@ -573,19 +580,19 @@ End Function
 
 '************************ TIMING ********************************
 
-Public Property Get Timing() As Double    ''DDOUBLE
-    Dim curTime As Currency
-    QueryPerformanceCounter curTime
-    Timing = (curTime - m_TimeStart) * m_TimeFreq + m_Time
-End Property
-
-Public Property Let Timing(ByVal NewValue As Double)  ''DDOUBLE
-    Dim curFreq As Currency, curOverhead As Currency
-    m_Time = NewValue
-    QueryPerformanceFrequency curFreq
-    m_TimeFreq = 1 / curFreq
-    QueryPerformanceCounter curOverhead
-    QueryPerformanceCounter m_TimeStart
-    m_TimeStart = m_TimeStart + (m_TimeStart - curOverhead)
-End Property
+''Public Property Get Timing() As Double    ''DDOUBLE
+''    Dim curTime As Currency
+''    QueryPerformanceCounter curTime
+''    Timing = (curTime - m_TimeStart) * m_TimeFreq + m_Time
+''End Property
+''
+''Public Property Let Timing(ByVal NewValue As Double)  ''DDOUBLE
+''    Dim curFreq As Currency, curOverhead As Currency
+''    m_Time = NewValue
+''    QueryPerformanceFrequency curFreq
+''    m_TimeFreq = 1 / curFreq
+''    QueryPerformanceCounter curOverhead
+''    QueryPerformanceCounter m_TimeStart
+''    m_TimeStart = m_TimeStart + (m_TimeStart - curOverhead)
+''End Property
 

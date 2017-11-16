@@ -2564,6 +2564,15 @@ Public Sub EngineINIT(PIC As PictureBox)
 
     Version = App.Major & "." & App.Minor & "." & App.Revision
 
+    Set FPSTICK = New clsTick
+
+    tComputed = FPSTICK.Add(800)
+    tDraw = FPSTICK.Add(30)
+    t1Sec = FPSTICK.Add(1)
+    
+
+
+
 End Sub
 
 'Public Sub EngineDoSTEP(DeltaTime As double)
