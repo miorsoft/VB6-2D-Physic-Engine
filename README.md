@@ -13,7 +13,7 @@ VB6 port of 2D Impulse Engine
    Contibutors: yet none.
 
 Requires:
-  * vbRichClient (for Render) http://vbrichclient.com/#/en/About/
+  * vbRichClient "RC6"(for Render) http://vbrichclient.com/#/en/About/
 
   
   

@@ -36,20 +36,20 @@ Private Const QS_ALLEVENTS = (QS_INPUT Or QS_POSTMESSAGE Or QS_TIMER Or QS_PAINT
 
 ' tick data
 Private Type TICKS
-    ID As Long          ' identifier ID
-    Count As Long       ' number of ticks done
-    Ending As Currency  ' the next ending tick
-    Freq As Currency    ' tick frequency
-    NoSkip As Boolean   ' should always (atleast try) to stay on time?
+    ID          As Long          ' identifier ID
+    Count       As Long       ' number of ticks done
+    Ending      As Currency  ' the next ending tick
+    Freq        As Currency    ' tick frequency
+    NoSkip      As Boolean   ' should always (atleast try) to stay on time?
 End Type
 
 ' internal variables
-Dim m_curFreq As Currency
+Dim m_curFreq   As Currency
 Dim m_curLateTick As Currency
 Dim m_curLateTicks As Currency
 Dim m_dblFreqToMS As Double
 
-Private Tick() As TICKS
+Private Tick()  As TICKS
 
 ' for better DoEvents handling
 Private Declare Function GetQueueStatus Lib "user32" (ByVal qsFlags As Long) As Long
@@ -338,7 +338,7 @@ Public Function WaitForNextID() As Long
     WaitForNextID = Tick(lngIndex).ID
 End Function
 Private Sub Class_Initialize()
-    ' get frequency (= length of a second)
+' get frequency (= length of a second)
     QueryPerformanceFrequency m_curFreq
     ' for converting frequency to MS
     m_dblFreqToMS = 1000 / CDbl(m_curFreq)
@@ -347,6 +347,6 @@ Private Sub Class_Initialize()
     m_curLateTick = -(m_curFreq / m_curLateTicks)
 End Sub
 Private Sub Class_Terminate()
-    ' clear memory
+' clear memory
     Erase Tick
 End Sub

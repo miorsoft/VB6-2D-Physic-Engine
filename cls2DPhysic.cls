@@ -77,10 +77,10 @@ Private Enum eMat
 End Enum
 
 Private Type tMaterial
-    SF      As Double    'Static Friction
-    DF      As Double    'Dynamic Friction
+    SF          As Double    'Static Friction
+    DF          As Double    'Dynamic Friction
     Restitution As Double
-    Density As Double
+    Density     As Double
 End Type
 
 
@@ -101,8 +101,8 @@ Public BiggerGroup As Long
 '*************************************************************************
 
 Private Type tAABB
-    pMin    As tVec2
-    pMax    As tVec2
+    pMin        As tVec2
+    pMax        As tVec2
 End Type
 
 Private Enum eBodyType
@@ -112,59 +112,60 @@ End Enum
 
 
 Private Type tBody
-    myType  As eBodyType
-    mass    As Double
-    invMass As Double
-    inertia As Double
-    invInertia As Double
+    myType      As eBodyType
+    mass        As Double
+    invMass     As Double
+    inertia     As Double
+    invInertia  As Double
 
-    ii      As Double
-
-
-    Area    As Double
+    ii          As Double
 
 
-    COM     As tVec2
+    Area        As Double
+
+
+    COM         As tVec2
 
     '------------------
     'Circle
-    Radius  As Double
+    Radius      As Double
     '------------------
     'Poligon
-    Vertex() As tVec2
-    tVertex() As tVec2
+    Vertex()    As tVec2
+    tVertex()   As tVec2
 
-    normals() As tVec2
-    Nvertex As Long
+    normals()   As tVec2
+    Nvertex     As Long
     '------------------
 
 
-    Pos     As tVec2
-    VEL     As tVec2
-    FORCE   As tVec2
+    Pos         As tVec2
+    VEL         As tVec2
+    FORCE       As tVec2
     angularVelocity As Double
-    torque  As Double
-    orient  As Double
+    torque      As Double
+    orient      As Double
 
     'Material
     staticFriction As Double
     dynamicFriction As Double
     Restitution As Double
 
-    U       As tMAT2
+    U           As tMAT2
 
-    color   As Long
+    color       As Long
 
-    AABB    As tAABB
+    AABB        As tAABB
 
     CollisionGroup As Long
     CollideWith As Long
 
-    ImageExist As Boolean
+    ImageExist  As Boolean
     ImageCenter As tVec2
-    ImageSize As tVec2
-    
-    
+    ImageSize   As tVec2
+
+    MyIDX       As Long
+
 End Type
 
 Private ImageList As cImageList
@@ -196,7 +197,7 @@ Private ImageList As cImageList
 ''End Type
 
 
-Private Body() As tBody
+Private Body()  As tBody
 'Private Shape() As tSHAPE
 
 Private NBodies As Long
@@ -221,7 +222,7 @@ Public MouseSelectedObj As Long
 
 Public TotalNContacts As Long
 
-Public Version As String
+Public Version  As String
 
 
 
@@ -242,21 +243,21 @@ End Enum
 
 
 Private Type tJoint
-    JointType As eJointType
-    bA      As Long
-    bB      As Long
-    L       As Double
-    AnchA   As tVec2
-    AnchB   As tVec2
-    tAnchA  As tVec2
-    tAnchB  As tVec2
+    JointType   As eJointType
+    bA          As Long
+    bB          As Long
+    L           As Double
+    AnchA       As tVec2
+    AnchB       As tVec2
+    tAnchA      As tVec2
+    tAnchB      As tVec2
 
-    StifPULL As Double
-    StifPUSH As Double
+    StifPULL    As Double
+    StifPUSH    As Double
 End Type
 
 Private Joints() As tJoint
-Public NJ   As Long
+Public NJ       As Long
 
 Private Const KMASS As Double = 0.1
 Private Const KDamp As Double = 0.125    '0.5 '0.125
@@ -272,12 +273,12 @@ Private Srf As cCairoSurface, CC As cCairoContext    'Srf is similar to a DIB, t
 Attribute CC.VB_VarUserMemId = 1073938448
 Public vbDrawCC As cCairoContext
 
-Public vbDRAW As cVBDraw
+Public vbDRAW   As cVBDraw
 Attribute vbDRAW.VB_VarUserMemId = 1073938445
-Private CONS As cConstructor
+Private CONS    As cConstructor
 Attribute CONS.VB_VarUserMemId = 1073938446
 
-Public PicHDC As Long
+Public PicHDC   As Long
 Attribute PicHDC.VB_VarUserMemId = 1073938447
 
 Private Const JPGQuality As Long = 95
@@ -298,11 +299,11 @@ Private Type tManifold
 
     ContactType As eCollision
 
-    bodyA   As Long
-    bodyB   As Long
+    bodyA       As Long
+    bodyB       As Long
 
     Penetration As Double
-    normal  As tVec2
+    normal      As tVec2
 
     contactsPTS(1 To 2) As tVec2
     contactCount As Long
@@ -310,9 +311,9 @@ Private Type tManifold
 
     MAXcontactCount As Long
 
-    e       As Double
-    DF      As Double
-    SF      As Double
+    e           As Double
+    DF          As Double
+    SF          As Double
 
 End Type
 
@@ -403,12 +404,12 @@ End Sub
 
 
 Private Sub collContactsINIT(wC As Long)
-    Dim I   As Long
-    Dim rA  As tVec2
-    Dim rB  As tVec2
-    Dim rV  As tVec2
-    Dim A   As Long
-    Dim B   As Long
+    Dim I       As Long
+    Dim rA      As tVec2
+    Dim rB      As tVec2
+    Dim rV      As tVec2
+    Dim A       As Long
+    Dim B       As Long
 
 
 
@@ -507,14 +508,14 @@ Private Sub collContactsPositionalCorrection(wC As Long)
 
 End Sub
 Private Sub collContactsApplyImpulse(wC As Long)
-    Dim A   As Long
-    Dim B   As Long
+    Dim A       As Long
+    Dim B       As Long
 
-    Dim I   As Long
+    Dim I       As Long
 
-    Dim rA  As tVec2
-    Dim rB  As tVec2
-    Dim rV  As tVec2
+    Dim rA      As tVec2
+    Dim rB      As tVec2
+    Dim rV      As tVec2
     Dim contactVel As Double
 
 
@@ -523,12 +524,12 @@ Private Sub collContactsApplyImpulse(wC As Long)
     Dim InvMassSUM As Double
     Dim MassSUM As Double
 
-    Dim J   As Double
-    Dim Jt  As Double
+    Dim J       As Double
+    Dim Jt      As Double
 
 
     Dim impulse As tVec2
-    Dim T   As tVec2
+    Dim T       As tVec2
 
     Dim tangentImpulse As tVec2
 
@@ -623,11 +624,11 @@ Private Sub collContactsApplyImpulse(wC As Long)
 
 
 
-                    If contactVel * .invContactCount < -0.1 Then
+                    If contactVel * .invContactCount < -0.001 Then
                         RaiseEvent CollisionEvent(A, B, _
-                                                  rA.x, rA.y, _
-                                                  rB.x, rB.y, _
-                                                  .normal.x, .normal.y, _
+                                                  rA.X, rA.Y, _
+                                                  rB.X, rB.Y, _
+                                                  .normal.X, .normal.Y, _
                                                   -contactVel)
                     End If
 
@@ -948,49 +949,50 @@ End Sub
 
 
 Private Function collCollisionSOLVE(wbA As Long, wbB As Long) As tManifold
-    Dim A   As tBody
-    Dim B   As tBody
+    Dim A       As tBody
+    Dim B       As tBody
 
-    Dim normal As tVec2
+    Dim normal  As tVec2
     Dim DistDist As Double
-    Dim Radius As Double
+    Dim Radius  As Double
     Dim distance As Double
 
-    Dim Center As tVec2
+    Dim Center  As tVec2
 
     Dim separation As Double
     Dim faceNormal As Long
 
-    Dim I   As Long
-    Dim I2  As Long
+    Dim I       As Long
+    Dim I2      As Long
 
-    Dim S   As Double
+    Dim S       As Double
 
-    Dim v1  As tVec2
-    Dim v2  As tVec2
+    Dim V1      As tVec2
+    Dim V2      As tVec2
 
-    Dim Dot1 As Double
-    Dim Dot2 As Double
+    Dim Dot1    As Double
+    Dim Dot2    As Double
 
-    Dim N   As tVec2
+    Dim N       As tVec2
 
     Dim ContactType As eCollision    'Long
 
-    Dim faceA As Long    '---------------polypoly
-    Dim faceB As Long
+    Dim faceA   As Long    '---------------polypoly
+    Dim faceB   As Long
     Dim penetrationA As Double
     Dim penetrationB As Double
-    Dim flip As Boolean
+    Dim flip    As Boolean
     Dim RefPoly As tBody
     Dim IncPoly As tBody
     Dim incidentFace(0 To 1) As tVec2
     Dim referenceIndex As Long
     Dim sidePlaneNormal As tVec2
     Dim refFaceNormal As tVec2
-    Dim refC As Double
+    Dim refC    As Double
     Dim posSide As Double
     Dim negSide As Double
-    Dim cp  As Double
+    Dim cp      As Double
+
 
 
     '---------------------------------------------------------------
@@ -1000,93 +1002,93 @@ Private Function collCollisionSOLVE(wbA As Long, wbB As Long) As tManifold
 
         Select Case ContactType
 
-            Case eCollisionCircleCircle    '0
+        Case eCollisionCircleCircle    '0
 
-                '*******************************************************************************
-                '*******************************************************************************
-                .bodyA = wbA
-                .bodyB = wbB
-                A = Body(wbA)
-                B = Body(wbB)
+            '*******************************************************************************
+            '*******************************************************************************
+            .bodyA = wbA
+            .bodyB = wbB
+            A = Body(wbA)
+            B = Body(wbB)
 
-                '        // Calculate translational vector, which is normal
-                '        // Vec2 normal = b->position - a->position;
-                '        Vec2 normal = b.position.sub( a.position );
-                normal = Vec2SUB(B.Pos, A.Pos)
-                '        // real DistDist = normal.LenSqr( );
-                '        // real radius = A->radius + B->radius;
-                '        float DistDist = normal.lengthSq();
-                '        float radius = A.radius + B.radius;
-                DistDist = Vec2LengthSq(normal)
-                Radius = A.Radius + B.Radius
+            '        // Calculate translational vector, which is normal
+            '        // Vec2 normal = b->position - a->position;
+            '        Vec2 normal = b.position.sub( a.position );
+            normal = Vec2SUB(B.Pos, A.Pos)
+            '        // real DistDist = normal.LenSqr( );
+            '        // real radius = A->radius + B->radius;
+            '        float DistDist = normal.lengthSq();
+            '        float radius = A.radius + B.radius;
+            DistDist = Vec2LengthSq(normal)
+            Radius = A.Radius + B.Radius
 
-                '        // Not in contact
-                If (DistDist >= Radius * Radius) Then
-                    .contactCount = 0
+            '        // Not in contact
+            If (DistDist >= Radius * Radius) Then
+                .contactCount = 0
+            Else
+
+                distance = Sqr(DistDist)
+
+                .contactCount = 1
+                .invContactCount = 1
+
+                If (distance = 0) Then
+                    ' // m->penetration = A->radius;
+                    ' // m->normal = Vec2( 1, 0 );
+                    ' // m->contacts [0] = a->position;
+                    ' m.penetration = A.radius;
+                    ' m.normal.set( 1.0f, 0.0f );
+                    ' m.contacts[0].set( a.position );
+                    .Penetration = A.Radius
+                    .normal.X = 1
+                    .normal.Y = 0
+                    'ReDim .contactsPTS(1)
+                    .contactsPTS(1) = A.Pos
+
                 Else
-
-                    distance = Sqr(DistDist)
-
-                    .contactCount = 1
-                    .invContactCount = 1
-
-                    If (distance = 0) Then
-                        ' // m->penetration = A->radius;
-                        ' // m->normal = Vec2( 1, 0 );
-                        ' // m->contacts [0] = a->position;
-                        ' m.penetration = A.radius;
-                        ' m.normal.set( 1.0f, 0.0f );
-                        ' m.contacts[0].set( a.position );
-                        .Penetration = A.Radius
-                        .normal.x = 1
-                        .normal.y = 0
-                        'ReDim .contactsPTS(1)
-                        .contactsPTS(1) = A.Pos
-
-                    Else
-                        '// m->penetration = radius - distance;
-                        '// m->normal = normal / distance; // Faster than using Normalized since
-                        '// we already performed sqrt
-                        '// m->contacts[0] = m->normal * A->radius + a->position;
-                        'm.penetration = radius - distance;
-                        'm.normal.set( normal ).divi( distance );
-                        'm.contacts[0].set( m.normal ).muli( A.radius ).addi( a.position );
-                        .Penetration = Radius - distance
-                        .normal = Vec2MUL(normal, 1# / distance)
-                        'ReDim .contactsPTS(1)
-                        .contactsPTS(1) = Vec2ADD(A.Pos, Vec2MUL(.normal, A.Radius))
-                    End If
-
+                    '// m->penetration = radius - distance;
+                    '// m->normal = normal / distance; // Faster than using Normalized since
+                    '// we already performed sqrt
+                    '// m->contacts[0] = m->normal * A->radius + a->position;
+                    'm.penetration = radius - distance;
+                    'm.normal.set( normal ).divi( distance );
+                    'm.contacts[0].set( m.normal ).muli( A.radius ).addi( a.position );
+                    .Penetration = Radius - distance
+                    .normal = Vec2MUL(normal, 1# / distance)
+                    'ReDim .contactsPTS(1)
+                    .contactsPTS(1) = Vec2ADD(A.Pos, Vec2MUL(.normal, A.Radius))
                 End If
 
-
-            Case eCollisionCirclePolygon    '1    ' CirclePolygon
-                .bodyA = wbA
-                .bodyB = wbB
-                A = Body(wbA)
-                B = Body(wbB)
-                GoSub LABELCirclePolygon
+            End If
 
 
-            Case eCollisionPolygonCircle    '2    'PolygonCircle
-
-                .bodyA = wbA
-                .bodyB = wbB
-                A = Body(wbB)    '*
-                B = Body(wbA)    '*
-                GoSub LABELCirclePolygon
-                .normal = Vec2Negative(.normal)
+        Case eCollisionCirclePolygon    '1    ' CirclePolygon
+            .bodyA = wbA
+            .bodyB = wbB
+            A = Body(wbA)
+            B = Body(wbB)
+            GoSub LABELCirclePolygon
 
 
+        Case eCollisionPolygonCircle    '2    'PolygonCircle
 
-            Case eCollisionPolygonPolygon    '3    ' PolygonPolygon
-                '*******************************************************************************
-                '*******************************************************************************
-                .bodyA = wbA
-                .bodyB = wbB
-                A = Body(wbA)
-                B = Body(wbB)
-                GoSub LabelPolygonPolygon
+            .bodyA = wbA
+            .bodyB = wbB
+            A = Body(wbB)    '*
+            B = Body(wbA)    '*
+            GoSub LABELCirclePolygon
+            .normal = Vec2Negative(.normal)
+
+
+
+        Case eCollisionPolygonPolygon    '3    ' PolygonPolygon
+            '*******************************************************************************
+            '*******************************************************************************
+            .bodyA = wbA
+            .bodyB = wbB
+            A = Body(wbA)
+            B = Body(wbB)
+            GoSub LabelPolygonPolygon
 
         End Select
 
@@ -1151,9 +1153,9 @@ LABELCirclePolygon:
         'int i2 = faceNormal + 1 < B.vertexCount ? faceNormal + 1 : 0;
         'Vec2 v2 = B.vertices[i2];
 
-        v1 = B.Vertex(faceNormal)
+        V1 = B.Vertex(faceNormal)
         I2 = faceNormal + 1: If I2 > B.Nvertex Then I2 = 1
-        v2 = B.Vertex(I2)
+        V2 = B.Vertex(I2)
 
 
 
@@ -1190,8 +1192,8 @@ LABELCirclePolygon:
         'float dot2 = Vec2.dot( center.sub( v2 ), v1.sub( v2 ) );
         'm.penetration = A.radius - separation;
 
-        Dot1 = Vec2DOT(Vec2SUB(Center, v1), Vec2SUB(v2, v1))
-        Dot2 = Vec2DOT(Vec2SUB(Center, v2), Vec2SUB(v1, v2))
+        Dot1 = Vec2DOT(Vec2SUB(Center, V1), Vec2SUB(V2, V1))
+        Dot2 = Vec2DOT(Vec2SUB(Center, V2), Vec2SUB(V1, V2))
         .Penetration = A.Radius - separation
 
 
@@ -1217,15 +1219,15 @@ LABELCirclePolygon:
         '        }
         If Dot1 <= 0 Then
 
-            If Vec2DISTANCEsq(Center, v1) <= A.Radius * A.Radius Then
+            If Vec2DISTANCEsq(Center, V1) <= A.Radius * A.Radius Then
 
                 .contactCount = 1
                 .invContactCount = 1
                 'ReDim .contactsPTS(1)
-                N = Vec2SUB(v1, Center)
+                N = Vec2SUB(V1, Center)
                 .normal = Vec2Normalize(matMULv(B.U, N))
-                v1 = Vec2ADD(matMULv(B.U, v1), B.Pos)
-                .contactsPTS(1) = v1
+                V1 = Vec2ADD(matMULv(B.U, V1), B.Pos)
+                .contactsPTS(1) = V1
             Else
                 Return
             End If
@@ -1250,14 +1252,14 @@ LABELCirclePolygon:
             '                B.u.muli( m.normal.set( v2 ).subi( center ) ).normalize();
             '                B.u.mul( v2, m.contacts[0] ).addi( b.position );
             '                }
-            If Vec2DISTANCEsq(Center, v2) <= A.Radius * A.Radius Then
+            If Vec2DISTANCEsq(Center, V2) <= A.Radius * A.Radius Then
 
                 .contactCount = 1
                 .invContactCount = 1
                 ' ReDim .contactsPTS(1)
-                N = Vec2SUB(v2, Center)
-                v2 = Vec2ADD(matMULv(B.U, v2), B.Pos)
-                .contactsPTS(1) = v2
+                N = Vec2SUB(V2, Center)
+                V2 = Vec2ADD(matMULv(B.U, V2), B.Pos)
+                .contactsPTS(1) = V2
                 .normal = Vec2Normalize(matMULv(B.U, N))
             Else
                 Return
@@ -1286,7 +1288,7 @@ LABELCirclePolygon:
 
 
             N = B.normals(faceNormal)
-            If Vec2DOT(Vec2SUB(Center, v1), N) <= A.Radius Then
+            If Vec2DOT(Vec2SUB(Center, V1), N) <= A.Radius Then
 
                 N = matMULv(B.U, N)
                 .normal = Vec2Negative(N)
@@ -1360,24 +1362,24 @@ LabelPolygonPolygon:
         'v1 = RefPoly->u * v1 + RefPoly->body->position;
         'v2 = RefPoly->u * v2 + RefPoly->body->position;
         '// Setup reference face vertices
-        v1 = RefPoly.Vertex(referenceIndex)
+        V1 = RefPoly.Vertex(referenceIndex)
         referenceIndex = referenceIndex + 1: If referenceIndex > RefPoly.Nvertex Then referenceIndex = 1
-        v2 = RefPoly.Vertex(referenceIndex)
+        V2 = RefPoly.Vertex(referenceIndex)
 
         '// Transform vertices to world space
         'v1 = RefPoly->u * v1 + RefPoly->body->position;
         'v2 = RefPoly->u * v2 + RefPoly->body->position;
-        v1 = Vec2ADD(matMULv(RefPoly.U, v1), RefPoly.Pos)
-        v2 = Vec2ADD(matMULv(RefPoly.U, v2), RefPoly.Pos)
+        V1 = Vec2ADD(matMULv(RefPoly.U, V1), RefPoly.Pos)
+        V2 = Vec2ADD(matMULv(RefPoly.U, V2), RefPoly.Pos)
 
         '  // Calculate reference face side normal in world space
         '  Vec2 sidePlaneNormal = (v2 - v1);
         '  sidePlaneNormal.Normalize( );
         '  // Orthogonalize
         '  Vec2 refFaceNormal( sidePlaneNormal.y, -sidePlaneNormal.x );
-        sidePlaneNormal = Vec2Normalize(Vec2SUB(v2, v1))
-        refFaceNormal.x = sidePlaneNormal.y
-        refFaceNormal.y = -sidePlaneNormal.x
+        sidePlaneNormal = Vec2Normalize(Vec2SUB(V2, V1))
+        refFaceNormal.X = sidePlaneNormal.Y
+        refFaceNormal.Y = -sidePlaneNormal.X
 
 
 
@@ -1386,9 +1388,9 @@ LabelPolygonPolygon:
         '  real refC = Dot( refFaceNormal, v1 );
         '  real negSide = -Dot( sidePlaneNormal, v1 );
         '  real posSide =  Dot( sidePlaneNormal, v2 );
-        refC = Vec2DOT(refFaceNormal, v1)
-        negSide = -Vec2DOT(sidePlaneNormal, v1)
-        posSide = Vec2DOT(sidePlaneNormal, v2)
+        refC = Vec2DOT(refFaceNormal, V1)
+        negSide = -Vec2DOT(sidePlaneNormal, V1)
+        posSide = Vec2DOT(sidePlaneNormal, V2)
 
 
 
@@ -1526,18 +1528,18 @@ End Function
 '    }
 '  }
 Private Function collFindAxisLeastPenetration(faceIndex As Long, A As tBody, B As tBody) As Double
-    Dim I   As Long
+    Dim I       As Long
 
     Dim bestIndex As Long
     Dim bestDistance As Double
 
 
-    Dim N   As tVec2
-    Dim nw  As tVec2
-    Dim buT As tMAT2
-    Dim S   As tVec2
-    Dim V   As tVec2
-    Dim D   As Double
+    Dim N       As tVec2
+    Dim nw      As tVec2
+    Dim buT     As tMAT2
+    Dim S       As tVec2
+    Dim V       As tVec2
+    Dim D       As Double
 
 
     bestDistance = -MAX_VALUE
@@ -1620,9 +1622,9 @@ Private Sub collFindIncidentFace(V() As tVec2, RefPoly As tBody, IncPoly As tBod
 
     Dim referenceNormal As tVec2
     Dim incidentFace As Long
-    Dim I   As Long
-    Dim dot As Double
-    Dim minDot As Double
+    Dim I       As Long
+    Dim dot     As Double
+    Dim minDot  As Double
 
     'Vec2 referenceNormal = RefPoly->m_normals[referenceIndex];
     referenceNormal = RefPoly.normals(referenceIndex)
@@ -1707,11 +1709,11 @@ End Sub
 
 
 Private Function Clip2(N As tVec2, c As Double, face() As tVec2) As Long
-    Dim sp  As Long
+    Dim sp      As Long
     Dim out(0 To 1) As tVec2
-    Dim d1  As Double
-    Dim d2  As Double
-    Dim alpha As Double
+    Dim d1      As Double
+    Dim d2      As Double
+    Dim alpha   As Double
 
     '  uint32 sp = 0;
     '  Vec2 out[2] = {
@@ -1796,23 +1798,23 @@ Private Sub BodyCalcCentroid(wB As Long)
 
     Const k_inv3 As Double = 1 / 3
 
-    Dim I   As Long
-    Dim J   As Long
+    Dim I       As Long
+    Dim J       As Long
 
-    Dim P1  As tVec2
-    Dim p2  As tVec2
-    Dim D   As Double
+    Dim P1      As tVec2
+    Dim p2      As tVec2
+    Dim D       As Double
 
-    Dim weight As Double
+    Dim weight  As Double
 
-    Dim intx2 As Double
-    Dim inty2 As Double
+    Dim intx2   As Double
+    Dim inty2   As Double
 
     With Body(wB)
 
         .ii = 0
-        .COM.x = 0
-        .COM.y = 0
+        .COM.X = 0
+        .COM.Y = 0
         .Area = 0
 
         For I = 1 To .Nvertex
@@ -1840,8 +1842,8 @@ Private Sub BodyCalcCentroid(wB As Long)
             P1 = Vec2SUB(P1, .Pos)
             p2 = Vec2SUB(p2, .Pos)
 
-            intx2 = P1.x * P1.x + p2.x * P1.x + p2.x * p2.x
-            inty2 = P1.y * P1.y + p2.y * P1.y + p2.y * p2.y
+            intx2 = P1.X * P1.X + p2.X * P1.X + p2.X * p2.X
+            inty2 = P1.Y * P1.Y + p2.Y * P1.Y + p2.Y * p2.Y
 
             .ii = .ii + (0.25 * k_inv3 * D) * (intx2 + inty2)
 
@@ -1856,7 +1858,7 @@ End Sub
 
 
 Private Sub BodyComputeMass(wB As Long, Density As Double)
-    Dim I   As Long
+    Dim I       As Long
 
     With Body(wB)
 
@@ -1926,11 +1928,13 @@ Public Sub BodySetCollideWith(wB As Long, M As Long)
 End Sub
 
 
-Public Sub BodySetFriction(wB, StaticF As Double, DynamicF As Double)
-Body(wB).staticFriction = StaticF
-Body(wB).dynamicFriction = DynamicF
+Public Sub BodySetFriction(wB As Long, StaticF As Double, DynamicF As Double)
+    Body(wB).staticFriction = StaticF
+    Body(wB).dynamicFriction = DynamicF
 End Sub
-
+Public Sub BodySetRestitution(wB As Long, Restitution As Double)
+    Body(wB).Restitution = Restitution
+End Sub
 
 Private Sub BodyPOLYGONComputeFaceNormals(wB As Long)
 '
@@ -1944,10 +1948,10 @@ Private Sub BodyPOLYGONComputeFaceNormals(wB As Long)
 '            normals[i].normalize();
 '        }
 
-    Dim I   As Long
-    Dim J   As Long
-    Dim face As tVec2
-    Dim N   As tVec2
+    Dim I       As Long
+    Dim J       As Long
+    Dim face    As tVec2
+    Dim N       As tVec2
 
     If Body(wB).myType <> ePolygon Then Exit Sub
 
@@ -1957,8 +1961,8 @@ Private Sub BodyPOLYGONComputeFaceNormals(wB As Long)
             J = I + 1
             If J > .Nvertex Then J = 1
             face = Vec2SUB(.Vertex(J), .Vertex(I))
-            N.x = face.y
-            N.y = -face.x
+            N.X = face.Y
+            N.Y = -face.X
             .normals(I) = Vec2Normalize(N)
         Next
     End With
@@ -1966,7 +1970,7 @@ Private Sub BodyPOLYGONComputeFaceNormals(wB As Long)
 
 End Sub
 Friend Sub BodyCREATECircle(Pos As tVec2, r As Double, Optional Density As Double = DefDensity)
-    Dim B      As Long
+    Dim B       As Long
 
     NBodies = NBodies + 1
     ReDim Preserve Body(NBodies)
@@ -1988,24 +1992,24 @@ Friend Sub BodyCREATECircle(Pos As tVec2, r As Double, Optional Density As Doubl
     BodyComputeMass NBodies, Density
 
 
-    B = Int(Rnd * 4)
-    Select Case B
-    Case 0
-        BodySETSprite NBodies, 0, 0, r * 2, r * 2, App.Path & "\Res\" & "RainbowBall.png"
-    Case 1
-        BodySETSprite NBodies, 0, 0, r * 2, r * 2, App.Path & "\Res\" & "Ball_Yellow.svg"
-    Case 2
-        BodySETSprite NBodies, 0, 0, r * 2.1, r * 2.1, App.Path & "\Res\" & "Ball.png"
-    Case 3
-        BodySETSprite NBodies, 0, 0, r * 2, r * 2, App.Path & "\Res\" & "SoccerBall.png"
-    End Select
+        B = Int(Rnd * 4)
+        Select Case B
+            Case 0
+                BodySETSprite NBodies, 0, 0, r * 2, r * 2, App.Path & "\Res\" & "RainbowBall.png"
+            Case 1
+                BodySETSprite NBodies, 0, 0, r * 2, r * 2, App.Path & "\Res\" & "Ball_Yellow.svg"
+            Case 2
+                BodySETSprite NBodies, 0, 0, r * 2.1, r * 2.1, App.Path & "\Res\" & "Ball.png"
+            Case 3
+                BodySETSprite NBodies, 0, 0, r * 2, r * 2, App.Path & "\Res\" & "SoccerBall.png"
+        End Select
 
 
     '    CopyBodyToShape
 End Sub
 
 Friend Sub BodyCREATERandomPoly(Pos As tVec2, Optional Density As Double = DefDensity)
-    Dim I   As Long
+    Dim I       As Long
 
 
     NBodies = NBodies + 1
@@ -2033,10 +2037,10 @@ Friend Sub BodyCREATERandomPoly(Pos As tVec2, Optional Density As Double = DefDe
                      '                                      (10 + Rnd * 30) * Sin(PI2 * (I - 1) / .Nvertex)))
         '        Next
 
-        .Vertex(1) = Vec2(Pos.x - 20, Pos.y - 15)
-        .Vertex(2) = Vec2(Pos.x + 40, Pos.y - 15)
-        .Vertex(3) = Vec2(Pos.x + 40, Pos.y + 15)
-        .Vertex(4) = Vec2(Pos.x - 20, Pos.y + 15)
+        .Vertex(1) = Vec2(Pos.X - 20, Pos.Y - 15)
+        .Vertex(2) = Vec2(Pos.X + 40, Pos.Y - 15)
+        .Vertex(3) = Vec2(Pos.X + 40, Pos.Y + 15)
+        .Vertex(4) = Vec2(Pos.X - 20, Pos.Y + 15)
     End With
 
 
@@ -2046,13 +2050,13 @@ Friend Sub BodyCREATERandomPoly(Pos As tVec2, Optional Density As Double = DefDe
 
 
 
-'''    CopyBodyToShape
+    '''    CopyBodyToShape
 
 End Sub
 
 
 Friend Sub BodyCREATEBox(Pos As tVec2, w As Double, h As Double, Optional Ang As Double = 0, Optional DoChamfer As Boolean = False, Optional Density As Double = DefDensity)
-    Dim I   As Long
+    Dim I         As Long
 
 
 
@@ -2067,7 +2071,7 @@ Friend Sub BodyCREATEBox(Pos As tVec2, w As Double, h As Double, Optional Ang As
 
         .orient = Ang
         .color = RGB(100 + Rnd * 155, 100 + Rnd * 155, 100 + Rnd * 155)
-        .Nvertex = 4    '+ Rnd * 2
+        .Nvertex = 4                             '+ Rnd * 2
 
         .U = SetOrient(Ang)
         .VEL = Vec2(0, 0)
@@ -2076,10 +2080,11 @@ Friend Sub BodyCREATEBox(Pos As tVec2, w As Double, h As Double, Optional Ang As
         ReDim .Vertex(.Nvertex)
         ReDim .tVertex(.Nvertex)
 
-        .Vertex(1) = Vec2(Pos.x - w * 0.5, Pos.y - h * 0.5)
-        .Vertex(2) = Vec2(Pos.x + w * 0.5, Pos.y - h * 0.5)
-        .Vertex(3) = Vec2(Pos.x + w * 0.5, Pos.y + h * 0.5)
-        .Vertex(4) = Vec2(Pos.x - w * 0.5, Pos.y + h * 0.5)
+        .Vertex(1) = Vec2(Pos.X - w * 0.5, Pos.Y - h * 0.5)
+        .Vertex(2) = Vec2(Pos.X + w * 0.5, Pos.Y - h * 0.5)
+        .Vertex(3) = Vec2(Pos.X + w * 0.5, Pos.Y + h * 0.5)
+        .Vertex(4) = Vec2(Pos.X - w * 0.5, Pos.Y + h * 0.5)
+
 
     End With
 
@@ -2087,22 +2092,23 @@ Friend Sub BodyCREATEBox(Pos As tVec2, w As Double, h As Double, Optional Ang As
     BodyComputeMass NBodies, Density
     Body(NBodies).Pos = Body(NBodies).COM
 
+
     '    If Rnd < 0.5 Then BodyChamfer NBodies, 4 + Rnd * 5
     If DoChamfer Then
-    BodyChamfer NBodies, 4 + Rnd * 5
+        BodyChamfer NBodies, 4 + Rnd * 5
     Else
-    BodySETSprite NBodies, 0, 0, w, h, App.Path & "\Res\" & "Box.png"
+        BodySETSprite NBodies, 0, 0, w, h, App.Path & "\Res\" & "Box.png"
     End If
-    
 
-  '  CopyBodyToShape
+
+    '  CopyBodyToShape
 
 End Sub
 
 
 Friend Sub BodyCREATERegularPoly(Pos As tVec2, Rw As Double, Rh As Double, N As Long, Flat As Long, Optional Density As Double = DefDensity)
-    Dim I   As Long
-    Dim A   As Double
+    Dim I       As Long
+    Dim A       As Double
 
     NBodies = NBodies + 1
     ReDim Preserve Body(NBodies)
@@ -2145,7 +2151,7 @@ Friend Sub BodyCREATERegularPoly(Pos As tVec2, Rw As Double, Rh As Double, N As 
     BodyChamfer NBodies, 8 + Rnd * 8, , 4
 
 
-'    CopyBodyToShape
+    '    CopyBodyToShape
 
 
 End Sub
@@ -2153,7 +2159,8 @@ End Sub
 
 Friend Sub BodyCREATEPolygon(Vertex() As tVec2)
 
-    Dim I      As Long
+    Dim I       As Long
+
 
 
     NBodies = NBodies + 1
@@ -2190,8 +2197,6 @@ Friend Sub BodyCREATEPolygon(Vertex() As tVec2)
     End With
 
 
-
-
     BodyPOLYGONComputeFaceNormals NBodies
     BodyComputeMass NBodies, DefDensity
     Body(NBodies).Pos = Body(NBodies).COM
@@ -2200,7 +2205,7 @@ Friend Sub BodyCREATEPolygon(Vertex() As tVec2)
     ''    BodyChamfer NBodies, 8 + Rnd * 8, , 4
 
 
-'    CopyBodyToShape
+    '    CopyBodyToShape
 
 
 
@@ -2279,8 +2284,8 @@ Private Function CollGetSupport(Body As tBody, dire As tVec2) As tVec2
 '// The extreme point along a direction within a polygon
     Dim bestProjection As Double
     Dim bestVertex As tVec2
-    Dim V   As tVec2
-    Dim I   As Long
+    Dim V       As tVec2
+    Dim I       As Long
     Dim projection As Double
 
     bestProjection = -MAX_VALUE
@@ -2397,11 +2402,11 @@ Public Sub BodyChamfer(wB As Long, Radius As Double, _
 'qualityMax = qualityMax || 14;
     Dim prevVertex As tVec2
     Dim nextVertex As tVec2
-    Dim Vertex As tVec2
+    Dim Vertex  As tVec2
     Dim newVertex() As tVec2
     Dim newVertexN As Long
 
-    Dim I   As Long
+    Dim I       As Long
 
     Dim Precision As Double
     Dim currentRadius As Double
@@ -2411,9 +2416,9 @@ Public Sub BodyChamfer(wB As Long, Radius As Double, _
     Dim radiusVector As tVec2
     Dim midNormal As tVec2
     Dim scaledVertex As tVec2
-    Dim alpha As Double
-    Dim theta As Double
-    Dim J   As Long
+    Dim alpha   As Double
+    Dim theta   As Double
+    Dim J       As Long
 
 
     With Body(wB)
@@ -2457,8 +2462,8 @@ Public Sub BodyChamfer(wB As Long, Radius As Double, _
             '                x: nextVertex.y - vertex.y,
             'y:                 Vertex.x -nextVertex.x
             '            });
-            prevNormal = Vec2Normalize(Vec2(Vertex.y - prevVertex.y, prevVertex.x - Vertex.x))
-            nextNormal = Vec2Normalize(Vec2(nextVertex.y - Vertex.y, Vertex.x - nextVertex.x))
+            prevNormal = Vec2Normalize(Vec2(Vertex.Y - prevVertex.Y, prevVertex.X - Vertex.X))
+            nextNormal = Vec2Normalize(Vec2(nextVertex.Y - Vertex.Y, Vertex.X - nextVertex.X))
 
             '            var diagonalRadius = Math.sqrt(2 * Math.pow(currentRadius, 2)),
             '                radiusVector = Vector.mult(Common.clone(prevNormal), currentRadius),
@@ -2569,7 +2574,7 @@ Public Sub EngineINIT(PIC As PictureBox)
     tComputed = FPSTICK.Add(800)
     tDraw = FPSTICK.Add(30)
     t1Sec = FPSTICK.Add(1)
-    
+
 
 
 
@@ -2578,14 +2583,14 @@ End Sub
 'Public Sub EngineDoSTEP(DeltaTime As double)
 Public Sub EngineDoSTEP()
 
-    Dim I   As Long
-    Dim J   As Long
-    Dim A   As tBody
+    Dim I       As Long
+    Dim J       As Long
+    Dim A       As tBody
 
-    Dim MinX As Double
-    Dim MinY As Double
-    Dim MaxX As Double
-    Dim MaxY As Double
+    Dim MinX    As Double
+    Dim MinY    As Double
+    Dim MaxX    As Double
+    Dim MaxY    As Double
 
     'DT = DeltaTime
     'RESTING = Vec2LengthSq(Vec2MUL(GRAVITY, DT)) + EPSILON
@@ -2595,7 +2600,7 @@ Public Sub EngineDoSTEP()
 
     Dim ContactType As Long
 
-    Dim V   As tVec2
+    Dim V       As tVec2
 
     ''   // Generate new collision info
     ''       contacts.clear();
@@ -2609,13 +2614,10 @@ Public Sub EngineDoSTEP()
 
                 'If I = 4 And J = 5 Then Stop
 
-
                 If AABBvsAABB(I, J) Then
-
 
                     If ((Body(I).CollideWith And Body(J).CollisionGroup)) Then    'Or _
                                                                                   '              (Body(J).CollideWith And Body(I).CollisionGroup)) Then
-
 
                         '                Manifold m = new Manifold( A, B );
                         '                m.solve();
@@ -2641,9 +2643,6 @@ Public Sub EngineDoSTEP()
                             End If
 
                             Contacts(NofContactMainFolds) = tmpContacts
-
-
-
 
 
                         End If
@@ -2730,8 +2729,8 @@ Public Sub EngineDoSTEP()
 
     For I = 1 To NBodies
         With Body(I)
-            .FORCE.x = 0
-            .FORCE.y = 0
+            .FORCE.X = 0
+            .FORCE.Y = 0
             .torque = 0
 
 
@@ -2750,10 +2749,10 @@ Public Sub EngineDoSTEP()
 
                 For J = 1 To .Nvertex
                     V = matMULv(.U, .Vertex(J))
-                    If V.x < MinX Then MinX = V.x
-                    If V.y < MinY Then MinY = V.y
-                    If V.x > MaxX Then MaxX = V.x
-                    If V.y > MaxY Then MaxY = V.y
+                    If V.X < MinX Then MinX = V.X
+                    If V.Y < MinY Then MinY = V.Y
+                    If V.X > MaxX Then MaxX = V.X
+                    If V.Y > MaxY Then MaxY = V.Y
                     .tVertex(J) = V
                 Next
 
@@ -2771,7 +2770,7 @@ Public Sub EngineDoSTEP()
 
     Next
 
-'''    UpdateShapes
+    '''    UpdateShapes
 
 
     ' JointsResolve moved after collContactsApplyImpulse '--- Ver 1.0.147
@@ -2801,16 +2800,16 @@ End Sub
 '
 'End Sub
 Private Function AABBvsAABB(wA As Long, wB As Long) As Boolean
-    Dim ab1 As tAABB
-    Dim ab2 As tAABB
+    Dim ab1     As tAABB
+    Dim ab2     As tAABB
 
     ab1 = Body(wA).AABB
     ab2 = Body(wB).AABB
 
-    If ab1.pMin.y > ab2.pMax.y Then Exit Function
-    If ab2.pMin.y > ab1.pMax.y Then Exit Function
-    If ab1.pMin.x > ab2.pMax.x Then Exit Function
-    If ab2.pMin.x > ab1.pMax.x Then Exit Function
+    If ab1.pMin.Y > ab2.pMax.Y Then Exit Function
+    If ab2.pMin.Y > ab1.pMax.Y Then Exit Function
+    If ab1.pMin.X > ab2.pMax.X Then Exit Function
+    If ab2.pMin.X > ab1.pMax.X Then Exit Function
 
     AABBvsAABB = True
 
@@ -2840,10 +2839,10 @@ Private Sub EngineIntegrateForces(wB As Long)    ', DT As double)
 '''        b.velocity.addsi( ImpulseMath.GRAVITY, dts );
 '''        b.angularVelocity += b.torque * b.invInertia * dts;
 '''    }
-    Dim dts As Double
+    Dim dts     As Double
     dts = DT * 0.5
 
-    Dim Dx  As Double
+    Dim Dx      As Double
 
 
     With Body(wB)
@@ -2860,19 +2859,19 @@ Private Sub EngineIntegrateForces(wB As Long)    ', DT As double)
             .VEL = Vec2MUL(.VEL, 0.9999)
 
 
-            If .Pos.y > PicH + 500 Then
-                Dx = .Pos.x
-                While .Pos.x > PicW
-                    .Pos.x = .Pos.x - PicW
+            If .Pos.Y > PicH + 500 Then
+                Dx = .Pos.X
+                While .Pos.X > PicW
+                    .Pos.X = .Pos.X - PicW
                 Wend
-                While .Pos.x < 0
-                    .Pos.x = .Pos.x + PicW
+                While .Pos.X < 0
+                    .Pos.X = .Pos.X + PicW
                 Wend
-                .Pos.y = 0
-                .VEL.y = 0
-                .VEL.x = .VEL.x * 0.5
+                .Pos.Y = 0
+                .VEL.Y = 0
+                .VEL.X = .VEL.X * 0.5
                 '.angularVelocity = 0
-                EngineRepositionConnected wB, .Pos.x - Dx
+                EngineRepositionConnected wB, .Pos.X - Dx
             End If
 
 
@@ -2932,9 +2931,9 @@ End Sub
 
 
 Private Sub EngineRepositionConnected(wB As Long, Dx As Double)
-    Dim I   As Long
-    Dim J   As Long
-    Dim ConnB As Long
+    Dim I       As Long
+    Dim J       As Long
+    Dim ConnB   As Long
 
     For J = 1 To NJ
         ConnB = 0
@@ -2944,17 +2943,17 @@ Private Sub EngineRepositionConnected(wB As Long, Dx As Double)
             Debug.Print wB & "   " & ConnB
 
             With Body(ConnB)
-                .Pos.x = .Pos.x + Dx
-                While .Pos.x < 0
-                    .Pos.x = .Pos.x + PicW
+                .Pos.X = .Pos.X + Dx
+                While .Pos.X < 0
+                    .Pos.X = .Pos.X + PicW
                 Wend
-                While .Pos.x > PicW
-                    .Pos.x = .Pos.x - PicW
+                While .Pos.X > PicW
+                    .Pos.X = .Pos.X - PicW
                 Wend
 
-                .Pos.y = 0
-                .VEL.y = 0
-                .VEL.x = .VEL.x * 0.5
+                .Pos.Y = 0
+                .VEL.Y = 0
+                .VEL.X = .VEL.X * 0.5
                 '.angularVelocity = 0
             End With
         End If
@@ -3009,7 +3008,7 @@ Friend Sub JointAdd2PinsJ(bA As Long, AnchA As tVec2, bB As Long, AnchB As tVec2
 End Sub
 
 Friend Sub JointAdd1PinJ(wBody As Long, Anch As tVec2, Optional D As Double = 0, _
-                        Optional StiffPull As Double = 1, Optional stiffPush As Double = 1)
+                         Optional StiffPull As Double = 1, Optional stiffPush As Double = 1)
     NJ = NJ + 1
     ReDim Preserve Joints(NJ)
     With Joints(NJ)
@@ -3056,25 +3055,25 @@ Private Sub JointsResolve()
 
 'By Roberto Mior (aka reexre,miorsoft)
 
-    Dim I   As Long
-    Dim J   As Long
+    Dim I       As Long
+    Dim J       As Long
 
-    Dim D   As Double
-    Dim N   As tVec2
-    Dim V   As tVec2
+    Dim D       As Double
+    Dim N       As tVec2
+    Dim V       As tVec2
 
-    Dim Center As tVec2
-    Dim FIXa As tVec2
-    Dim FIXb As tVec2
+    Dim Center  As tVec2
+    Dim FIXa    As tVec2
+    Dim FIXb    As tVec2
 
-    Dim vAprj As tVec2
-    Dim vBprj As tVec2
-    Dim RVA As tVec2
-    Dim RVB As tVec2
-    Dim Axe As tVec2
+    Dim vAprj   As tVec2
+    Dim vBprj   As tVec2
+    Dim RVA     As tVec2
+    Dim RVB     As tVec2
+    Dim Axe     As tVec2
 
-    Dim Tmass As Double
-    Dim ORI As tMAT2
+    Dim Tmass   As Double
+    Dim ORI     As tMAT2
     Dim RotDiff As Double
 
 
@@ -3083,227 +3082,227 @@ Private Sub JointsResolve()
         With Joints(I)
             Select Case .JointType
 
-                Case JointDistance
+            Case JointDistance
 
 
-                    N = Vec2SUB(Body(.bA).Pos, Body(.bB).Pos)
+                N = Vec2SUB(Body(.bA).Pos, Body(.bB).Pos)
 
-                    'N = Vec2ADD(N, Vec2MUL(Vec2SUB(Body(.bA).VEL, Body(.bB).VEL), invDT))
+                'N = Vec2ADD(N, Vec2MUL(Vec2SUB(Body(.bA).VEL, Body(.bB).VEL), invDT))
 
-                    V = Vec2MUL(Vec2SUB(Body(.bA).VEL, Body(.bB).VEL), KDamp * INVdt)
-                    V = VectorProject(V, N)
+                V = Vec2MUL(Vec2SUB(Body(.bA).VEL, Body(.bB).VEL), KDamp * INVdt)
+                V = VectorProject(V, N)
 
-                    N = Vec2ADD(N, V)
+                N = Vec2ADD(N, V)
 
-                    D = Vec2Length(N)
-                    N = Vec2MUL(N, 1 / D)
-                    D = (D - .L) * (Body(.bA).mass + Body(.bB).mass) * KMASS
-                    If D > 0 Then
-                        D = D * .StifPULL
-                    Else
-                        D = D * .StifPUSH
-                    End If
+                D = Vec2Length(N)
+                N = Vec2MUL(N, 1 / D)
+                D = (D - .L) * (Body(.bA).mass + Body(.bB).mass) * KMASS
+                If D > 0 Then
+                    D = D * .StifPULL
+                Else
+                    D = D * .StifPUSH
+                End If
 
-                    '                  Body(.bA).FORCE = Vec2ADD(Body(.bA).FORCE, Vec2MUL(N, -D))
-                    '                  Body(.bB).FORCE = Vec2ADD(Body(.bB).FORCE, Vec2MUL(N, D))
+                '                  Body(.bA).FORCE = Vec2ADD(Body(.bA).FORCE, Vec2MUL(N, -D))
+                '                  Body(.bB).FORCE = Vec2ADD(Body(.bB).FORCE, Vec2MUL(N, D))
 
 
-                    'For J = 1 To Iterations
-                    BodyApplyImpulse .bA, Vec2MUL(N, -D), Vec2(0, 0)
-                    BodyApplyImpulse .bB, Vec2MUL(N, D), Vec2(0, 0)
-                    'Next
+                'For J = 1 To Iterations
+                BodyApplyImpulse .bA, Vec2MUL(N, -D), Vec2(0, 0)
+                BodyApplyImpulse .bB, Vec2MUL(N, D), Vec2(0, 0)
+                'Next
 
-                Case Joint2Pins
+            Case Joint2Pins
 
 
 
-                    ORI = SetOrient(Body(.bA).orient + Body(.bA).angularVelocity * KDamp * INVdt)
-                    '    .tAnchA = matMULv(Body(.bA).U, .AnchA)
-                    .tAnchA = matMULv(ORI, .AnchA)
-                    FIXa = Vec2ADD(Body(.bA).Pos, .tAnchA)
+                ORI = SetOrient(Body(.bA).orient + Body(.bA).angularVelocity * KDamp * INVdt)
+                '    .tAnchA = matMULv(Body(.bA).U, .AnchA)
+                .tAnchA = matMULv(ORI, .AnchA)
+                FIXa = Vec2ADD(Body(.bA).Pos, .tAnchA)
 
-                    V = Vec2MUL(Body(.bA).VEL, KDamp * INVdt)
-                    'V = VectorProject(V, .tAnchA) ' -------------------------removed Ver 1.0.147
-                    FIXa = Vec2ADD(FIXa, V)   '.------------------<<<<<<<
+                V = Vec2MUL(Body(.bA).VEL, KDamp * INVdt)
+                'V = VectorProject(V, .tAnchA) ' -------------------------removed Ver 1.0.147
+                FIXa = Vec2ADD(FIXa, V)   '.------------------<<<<<<<
 
 
-                    ORI = SetOrient(Body(.bB).orient + Body(.bB).angularVelocity * KDamp * INVdt)
-                    '.tAnchB = matMULv(Body(.bB).U, .AnchB)
-                    .tAnchB = matMULv(ORI, .AnchB)
+                ORI = SetOrient(Body(.bB).orient + Body(.bB).angularVelocity * KDamp * INVdt)
+                '.tAnchB = matMULv(Body(.bB).U, .AnchB)
+                .tAnchB = matMULv(ORI, .AnchB)
 
-                    FIXb = Vec2ADD(Body(.bB).Pos, .tAnchB)
-                    V = Vec2MUL(Body(.bB).VEL, KDamp * INVdt)
-                    'V = VectorProject(V, .tAnchB) ' -------------------------removed Ver 1.0.147
-                    FIXb = Vec2ADD(FIXb, V)   '.------------------<<<<<<<
+                FIXb = Vec2ADD(Body(.bB).Pos, .tAnchB)
+                V = Vec2MUL(Body(.bB).VEL, KDamp * INVdt)
+                'V = VectorProject(V, .tAnchB) ' -------------------------removed Ver 1.0.147
+                FIXb = Vec2ADD(FIXb, V)   '.------------------<<<<<<<
 
-                    'vAprj = VectorProject(Body(.bA).VEL, .tAnchA)
-                    'vBprj = VectorProject(Body(.bB).VEL, .tAnchB)
-                    'Axe = Vec2SUB(.tAnchB, .tAnchB)
+                'vAprj = VectorProject(Body(.bA).VEL, .tAnchA)
+                'vBprj = VectorProject(Body(.bB).VEL, .tAnchB)
+                'Axe = Vec2SUB(.tAnchB, .tAnchB)
 
 
 
-                    '''''    Axe = Vec2SUB(FIXa, FIXb) ' -------------------------removed Ver 1.0.147
+                '''''    Axe = Vec2SUB(FIXa, FIXb) ' -------------------------removed Ver 1.0.147
 
 
-                    'V = Vec2MUL(Body(.bA).VEL, KDamp * INVdt)
-                    'V = Vec2ADD(V, VectorProject(V, Vec2MUL(Body(.bB).VEL, KDamp * INVdt)))
-                    'V = VectorProject(V, Axe)
+                'V = Vec2MUL(Body(.bA).VEL, KDamp * INVdt)
+                'V = Vec2ADD(V, VectorProject(V, Vec2MUL(Body(.bB).VEL, KDamp * INVdt)))
+                'V = VectorProject(V, Axe)
 
 
-                    '                                    vAprj = VectorProject(Body(.bA).VEL, Axe)
-                    '                                    vBprj = VectorProject(Body(.bB).VEL, Axe)
-                    ''''vAprj = VectorProject(Vec2MUL(Body(.bA).VEL, 1 * 1), Axe)'---TOLTO
-                    ''''vBprj = VectorProject(Vec2MUL(Body(.bB).VEL, 1 * 1), Axe)'---TOLTO
+                '                                    vAprj = VectorProject(Body(.bA).VEL, Axe)
+                '                                    vBprj = VectorProject(Body(.bB).VEL, Axe)
+                ''''vAprj = VectorProject(Vec2MUL(Body(.bA).VEL, 1 * 1), Axe)'---TOLTO
+                ''''vBprj = VectorProject(Vec2MUL(Body(.bB).VEL, 1 * 1), Axe)'---TOLTO
 
-                    N = Vec2SUB(FIXa, FIXb)
-                    ''''N = Vec2ADD(N, Vec2SUB(vAprj, vBprj))'---TOLTO
+                N = Vec2SUB(FIXa, FIXb)
+                ''''N = Vec2ADD(N, Vec2SUB(vAprj, vBprj))'---TOLTO
 
-                    'N = Vec2ADD(N, V)
+                'N = Vec2ADD(N, V)
 
-                    D = Vec2Length(N)
-                    If D Then N = Vec2MUL(N, 1 / D)
-                    D = (D - .L) * (Body(.bA).mass + Body(.bB).mass) * KMASS
-                    If D > 0 Then
-                        D = D * .StifPULL
-                    Else
-                        D = D * .StifPUSH
-                    End If
+                D = Vec2Length(N)
+                If D Then N = Vec2MUL(N, 1 / D)
+                D = (D - .L) * (Body(.bA).mass + Body(.bB).mass) * KMASS
+                If D > 0 Then
+                    D = D * .StifPULL
+                Else
+                    D = D * .StifPUSH
+                End If
 
 
-                    BodyApplyImpulse .bA, Vec2MUL(N, -D), .tAnchA
-                    BodyApplyImpulse .bB, Vec2MUL(N, D), .tAnchB
+                BodyApplyImpulse .bA, Vec2MUL(N, -D), .tAnchA
+                BodyApplyImpulse .bB, Vec2MUL(N, D), .tAnchB
 
 
-                Case Joint1Pin
+            Case Joint1Pin
 
 
-                    ORI = SetOrient(Body(.bA).orient + Body(.bA).angularVelocity * KDamp * INVdt)
+                ORI = SetOrient(Body(.bA).orient + Body(.bA).angularVelocity * KDamp * INVdt)
 
-                    '                    .tAnchA = matMULv(Body(.bA).U + Body(.bA).angularVelocity, .AnchA)
-                    .tAnchA = matMULv(ORI, .AnchA)
+                '                    .tAnchA = matMULv(Body(.bA).U + Body(.bA).angularVelocity, .AnchA)
+                .tAnchA = matMULv(ORI, .AnchA)
 
-                    Axe = .tAnchA    ' -------------------------removed Ver 1.0.147
+                Axe = .tAnchA    ' -------------------------removed Ver 1.0.147
 
 
-                    ''''vAprj = VectorProject(Vec2MUL(Body(.bA).VEL, 1 * 1), Axe)'---TOLTO
+                ''''vAprj = VectorProject(Vec2MUL(Body(.bA).VEL, 1 * 1), Axe)'---TOLTO
 
-                    FIXa = Vec2ADD(Body(.bA).Pos, .tAnchA)
+                FIXa = Vec2ADD(Body(.bA).Pos, .tAnchA)
 
 
-                    V = Vec2MUL(Body(.bA).VEL, KDamp * INVdt)
-                    'V = VectorProject(V, .tAnchA)' -------------------------removed Ver 1.0.147
+                V = Vec2MUL(Body(.bA).VEL, KDamp * INVdt)
+                'V = VectorProject(V, .tAnchA)' -------------------------removed Ver 1.0.147
 
-                    FIXa = Vec2ADD(FIXa, V)   '.------------------<<<<<<<
-                    'FIXa = Vec2ADD(Body(.bA).Pos, Vec2ADD(.tAnchA, RVA))
-                    N = Vec2SUB(FIXa, .AnchB)
+                FIXa = Vec2ADD(FIXa, V)   '.------------------<<<<<<<
+                'FIXa = Vec2ADD(Body(.bA).Pos, Vec2ADD(.tAnchA, RVA))
+                N = Vec2SUB(FIXa, .AnchB)
 
-                    ''''N = Vec2ADD(N, Vec2MUL(vAprj, 1))'---TOLTO
+                ''''N = Vec2ADD(N, Vec2MUL(vAprj, 1))'---TOLTO
 
 
-                    D = Vec2Length(N)
+                D = Vec2Length(N)
 
-                    'If D Then N = Vec2MUL(N, 1 / D) '*******************************
+                'If D Then N = Vec2MUL(N, 1 / D) '*******************************
 
-                    D = (D - .L) * (Body(.bA).mass) * KMASS    ' * 2
+                D = (D - .L) * (Body(.bA).mass) * KMASS    ' * 2
 
-                    If D > 0 Then
-                        D = D * .StifPULL
-                    Else
-                        D = D * .StifPUSH
-                    End If
+                If D > 0 Then
+                    D = D * .StifPULL
+                Else
+                    D = D * .StifPUSH
+                End If
 
-                    N = Vec2Normalize(N)    '*************************************
-                    BodyApplyImpulse .bA, Vec2MUL(N, -D), .tAnchA
+                N = Vec2Normalize(N)    '*************************************
+                BodyApplyImpulse .bA, Vec2MUL(N, -D), .tAnchA
 
 
 
-                Case Rotor1
+            Case Rotor1
 
 
-                    'ORI = SetOrient(Body(.bA).orient + Body(.bA).angularVelocity)
-                    ORI = SetOrient(Body(.bA).orient + Body(.bA).angularVelocity * KDamp * INVdt)
-                    .tAnchA = matMULv(ORI, .AnchA)
-                    'FIXa = Vec2ADD(Body(.bA).Pos, .tAnchA)
-                    N.x = -.tAnchA.y
-                    N.y = .tAnchA.x
-                    RotDiff = .L - Body(.bA).angularVelocity
+                'ORI = SetOrient(Body(.bA).orient + Body(.bA).angularVelocity)
+                ORI = SetOrient(Body(.bA).orient + Body(.bA).angularVelocity * KDamp * INVdt)
+                .tAnchA = matMULv(ORI, .AnchA)
+                'FIXa = Vec2ADD(Body(.bA).Pos, .tAnchA)
+                N.X = -.tAnchA.Y
+                N.Y = .tAnchA.X
+                RotDiff = .L - Body(.bA).angularVelocity
 
 
-                    RotDiff = RotDiff * 20
-                    If Sgn(RotDiff) = Sgn(.L) Then
-                        N = Vec2MUL(N, RotDiff)
-                        BodyApplyImpulse .bA, N, Vec2ADD(.tAnchA, Body(.bA).VEL)
-                    End If
-
-
-
-                Case Rotor2
-                    '''' Like Joint2pins
-
-                    ORI = SetOrient(Body(.bA).orient + Body(.bA).angularVelocity * KDamp * INVdt)
-                    '    .tAnchA = matMULv(Body(.bA).U, .AnchA)
-
-
-                    .tAnchA = matMULv(ORI, .AnchA)
-                    FIXa = Vec2ADD(Body(.bA).Pos, .tAnchA)
-                    V = Vec2MUL(Body(.bA).VEL, KDamp * INVdt)
-                    'V = VectorProject(V, .tAnchA)
-                    FIXa = Vec2ADD(FIXa, V)   '.------------------<<<<<<<
-
-                    ORI = SetOrient(Body(.bB).orient + Body(.bB).angularVelocity * KDamp * INVdt)
-                    '.tAnchB = matMULv(Body(.bB).U, .AnchB)
-                    .tAnchB = matMULv(ORI, .AnchB)
-
-                    FIXb = Vec2ADD(Body(.bB).Pos, .tAnchB)
-                    V = Vec2MUL(Body(.bB).VEL, KDamp * INVdt)
-                    'V = VectorProject(V, .tAnchB)
-                    FIXb = Vec2ADD(FIXb, V)   '.------------------<<<<<<<
-
-                    Axe = Vec2SUB(FIXb, FIXa)
-
-                    'vAprj = VectorProject(Vec2MUL(Body(.bA).VEL, 1 * 1), Axe)'---TOLTO
-                    'vBprj = VectorProject(Vec2MUL(Body(.bB).VEL, 1 * 1), Axe)'---TOLTO
-
-                    N = Vec2SUB(FIXa, FIXb)
-                    'N = Vec2ADD(N, Vec2SUB(vAprj, vBprj))''---TOLTO
-
-                    D = Vec2Length(N)
-                    If D Then N = Vec2MUL(N, 1 / D)
-                    D = (D - .L) * (Body(.bA).mass + Body(.bB).mass) * KMASS
-                    If D > 0 Then
-                        D = D * 0.5
-                    Else
-                        D = D * 0.5
-                    End If
-
-                    BodyApplyImpulse .bA, Vec2MUL(N, -D), .tAnchA
-                    BodyApplyImpulse .bB, Vec2MUL(N, D), .tAnchB
-                    '---------------------------------
-
-                    RotDiff = AngleDIFF(PI * 0.8 * Cos(CNT * 0.0008) + _
-                                        Body(.bB).orient + Body(.bB).angularVelocity * KDamp * INVdt, _
-                                        Body(.bA).orient + Body(.bA).angularVelocity * KDamp * INVdt)
-
-                    If Abs(RotDiff) > 1 Then RotDiff = Sgn(RotDiff) * 1
-
-                    ORI = SetOrient(Body(.bA).orient + Body(.bA).angularVelocity * KDamp * INVdt)
-                    .tAnchA = matMULv(ORI, .AnchA)
-                    .tAnchA.x = -.tAnchA.x
-                    .tAnchA.y = -.tAnchA.y
-                    N.x = -.tAnchA.y
-                    N.y = .tAnchA.x
+                RotDiff = RotDiff * 20
+                If Sgn(RotDiff) = Sgn(.L) Then
                     N = Vec2MUL(N, RotDiff)
                     BodyApplyImpulse .bA, N, Vec2ADD(.tAnchA, Body(.bA).VEL)
+                End If
 
 
-                    ORI = SetOrient(Body(.bB).orient + Body(.bB).angularVelocity * KDamp * INVdt)
-                    .tAnchB = matMULv(ORI, .AnchB)
-                    .tAnchB.x = -.tAnchB.x
-                    .tAnchB.y = -.tAnchB.y
-                    N.x = -.tAnchB.y
-                    N.y = .tAnchB.x
-                    N = Vec2MUL(N, -RotDiff)
-                    BodyApplyImpulse .bB, N, Vec2ADD(.tAnchB, Body(.bB).VEL)
+
+            Case Rotor2
+                '''' Like Joint2pins
+
+                ORI = SetOrient(Body(.bA).orient + Body(.bA).angularVelocity * KDamp * INVdt)
+                '    .tAnchA = matMULv(Body(.bA).U, .AnchA)
+
+
+                .tAnchA = matMULv(ORI, .AnchA)
+                FIXa = Vec2ADD(Body(.bA).Pos, .tAnchA)
+                V = Vec2MUL(Body(.bA).VEL, KDamp * INVdt)
+                'V = VectorProject(V, .tAnchA)
+                FIXa = Vec2ADD(FIXa, V)   '.------------------<<<<<<<
+
+                ORI = SetOrient(Body(.bB).orient + Body(.bB).angularVelocity * KDamp * INVdt)
+                '.tAnchB = matMULv(Body(.bB).U, .AnchB)
+                .tAnchB = matMULv(ORI, .AnchB)
+
+                FIXb = Vec2ADD(Body(.bB).Pos, .tAnchB)
+                V = Vec2MUL(Body(.bB).VEL, KDamp * INVdt)
+                'V = VectorProject(V, .tAnchB)
+                FIXb = Vec2ADD(FIXb, V)   '.------------------<<<<<<<
+
+                Axe = Vec2SUB(FIXb, FIXa)
+
+                'vAprj = VectorProject(Vec2MUL(Body(.bA).VEL, 1 * 1), Axe)'---TOLTO
+                'vBprj = VectorProject(Vec2MUL(Body(.bB).VEL, 1 * 1), Axe)'---TOLTO
+
+                N = Vec2SUB(FIXa, FIXb)
+                'N = Vec2ADD(N, Vec2SUB(vAprj, vBprj))''---TOLTO
+
+                D = Vec2Length(N)
+                If D Then N = Vec2MUL(N, 1 / D)
+                D = (D - .L) * (Body(.bA).mass + Body(.bB).mass) * KMASS
+                If D > 0 Then
+                    D = D * 0.5
+                Else
+                    D = D * 0.5
+                End If
+
+                BodyApplyImpulse .bA, Vec2MUL(N, -D), .tAnchA
+                BodyApplyImpulse .bB, Vec2MUL(N, D), .tAnchB
+                '---------------------------------
+
+                RotDiff = AngleDIFF(PI * 0.8 * Cos(CNT * 0.0008) + _
+                                    Body(.bB).orient + Body(.bB).angularVelocity * KDamp * INVdt, _
+                                    Body(.bA).orient + Body(.bA).angularVelocity * KDamp * INVdt)
+
+                If Abs(RotDiff) > 1 Then RotDiff = Sgn(RotDiff) * 1
+
+                ORI = SetOrient(Body(.bA).orient + Body(.bA).angularVelocity * KDamp * INVdt)
+                .tAnchA = matMULv(ORI, .AnchA)
+                .tAnchA.X = -.tAnchA.X
+                .tAnchA.Y = -.tAnchA.Y
+                N.X = -.tAnchA.Y
+                N.Y = .tAnchA.X
+                N = Vec2MUL(N, RotDiff)
+                BodyApplyImpulse .bA, N, Vec2ADD(.tAnchA, Body(.bA).VEL)
+
+
+                ORI = SetOrient(Body(.bB).orient + Body(.bB).angularVelocity * KDamp * INVdt)
+                .tAnchB = matMULv(ORI, .AnchB)
+                .tAnchB.X = -.tAnchB.X
+                .tAnchB.Y = -.tAnchB.Y
+                N.X = -.tAnchB.Y
+                N.Y = .tAnchB.X
+                N = Vec2MUL(N, -RotDiff)
+                BodyApplyImpulse .bB, N, Vec2ADD(.tAnchB, Body(.bB).VEL)
 
 
             End Select
@@ -3413,10 +3412,10 @@ Public Sub RenderCreateOuttroFrames()
 
 End Sub
 Private Sub RenderStringOut(S As String)
-    Dim I   As Double
+    Dim I       As Double
     Const sStep As Double = 40    ' 10 ' 30
-    Static y As Double
-    Dim S2  As String
+    Static Y    As Double
+    Dim S2      As String
 
     Do
         S = S & " "
@@ -3425,139 +3424,134 @@ Private Sub RenderStringOut(S As String)
     S2 = S
 
     For I = 1 To Len(S2) Step sStep
-        vbDRAW.CC.TextOut 10 + I * 7, y, Mid$(S, I, sStep)
+        vbDRAW.CC.TextOut 10 + I * 7, Y, Mid$(S, I, sStep)
         vbDRAW.Srf.WriteContentToJpgFile App.Path & "\Frames\" & Format(Frame, "00000") & ".jpg", JPGQuality
         Frame = Frame + 1
     Next
-    y = y + 16
+    Y = Y + 16
 
-    If y > PicH Then y = 5
+    If Y > PicH Then Y = 5
 
 
 
 
 End Sub
 Public Sub RenderDRAWRC(Optional RefreshPicNow As Boolean = True)
-    Dim x1  As Double
-    Dim y1  As Double
-    Dim x2  As Double
-    Dim y2  As Double
-    Dim x3  As Double
-    Dim y3  As Double
+    Dim x1      As Double
+    Dim y1      As Double
+    Dim x2      As Double
+    Dim y2      As Double
+    Dim x3      As Double
+    Dim y3      As Double
 
-    Dim x1d As Double
-    Dim y1d As Double
-    Dim x2d As Double
-    Dim y2d As Double
-
-
-    Dim I   As Long
-    Dim J   As Long
-    Dim JJ  As Long
-    Dim S   As String
+    Dim x1d     As Double
+    Dim y1d     As Double
+    Dim x2d     As Double
+    Dim y2d     As Double
 
 
+    Dim I       As Long
+    Dim J       As Long
+    Dim JJ      As Long
+    Dim S       As String
 
 
-    vbDrawCC.SetSourceColor 2631720 '0
+    vbDrawCC.SetSourceColor 2631720    '0
     vbDrawCC.Paint
     vbDrawCC.SetLineWidth 1.25
 
 
     For I = 1 To NBodies
 
-'        With Shape(I)
+        '        With Shape(I)
         With Body(I)
 
             If .myType = eCircle Then
-'                x1 = .Pos.x
-'                y1 = .Pos.y
-'
-'                vbDrawCC.SetSourceColor .color
-'                ' vbDrawCC.Ellipse x1, y1, .Radius * 2, .Radius * 2
-'                vbDrawCC.ARC x1, y1, .Radius
-'                vbDrawCC.Fill
-'                'vbDrawCC.Stroke
-'
-'                x2 = x1 + .Radius * Cos(.orient)
-'                y2 = y1 + .Radius * Sin(.orient)
-'                vbDrawCC.DrawLine x1, y1, x2, y2, , , 0, 0.25
+                '                x1 = .Pos.x
+                '                y1 = .Pos.y
+                '
+                '                vbDrawCC.SetSourceColor .color
+                '                ' vbDrawCC.Ellipse x1, y1, .Radius * 2, .Radius * 2
+                '                vbDrawCC.ARC x1, y1, .Radius
+                '                vbDrawCC.Fill
+                '                'vbDrawCC.Stroke
+                '
+                '                x2 = x1 + .Radius * Cos(.orient)
+                '                y2 = y1 + .Radius * Sin(.orient)
+                '                vbDrawCC.DrawLine x1, y1, x2, y2, , , 0, 0.25
 
-vbDrawCC.Save
-
-vbDrawCC.TranslateDrawings .Pos.x + .ImageCenter.y, _
-.Pos.y + .ImageCenter.y
-vbDrawCC.RotateDrawings .orient
-vbDrawCC.RenderSurfaceContent ImageList(CStr(I)), -.ImageSize.x * 0.5, -.ImageSize.y * 0.5
-vbDrawCC.Restore
+                vbDrawCC.Save
+                vbDrawCC.TranslateDrawings .Pos.X + .ImageCenter.Y, _
+                                           .Pos.Y + .ImageCenter.Y
+                vbDrawCC.RotateDrawings .orient
+                vbDrawCC.RenderSurfaceContent ImageList(CStr(I)), -.ImageSize.X * 0.5, -.ImageSize.Y * 0.5
+                vbDrawCC.Restore
 
 
 
             Else
 
+                If .ImageExist Then
+                    vbDrawCC.Save
 
+                    vbDrawCC.TranslateDrawings .Pos.X + .ImageCenter.Y, _
+                                               .Pos.Y + .ImageCenter.Y
+                    vbDrawCC.RotateDrawings .orient
+                    vbDrawCC.RenderSurfaceContent ImageList(CStr(I)), -.ImageSize.X * 0.5, -.ImageSize.Y * 0.5
+                    vbDrawCC.Restore
 
-If .ImageExist Then
-vbDrawCC.Save
-
-vbDrawCC.TranslateDrawings .Pos.x + .ImageCenter.y, _
-.Pos.y + .ImageCenter.y
-vbDrawCC.RotateDrawings .orient
-vbDrawCC.RenderSurfaceContent ImageList(CStr(I)), -.ImageSize.x * 0.5, -.ImageSize.y * 0.5
-vbDrawCC.Restore
-
-Else
+                Else
 
 
 
 
-                '''' FILL
-                vbDrawCC.SetSourceColor .color
+                    '''' FILL
+                    vbDrawCC.SetSourceColor .color
 
-                x1 = .tVertex(1).x + .Pos.x
-                y1 = .tVertex(1).y + .Pos.y
-                vbDrawCC.MoveTo x1, y1
-                '                For J = 2 To .Nvertex 'STADARD
-                '                    X1 = .tVertex(J).X + .Pos.X
-                '                    y1 = .tVertex(J).Y + .Pos.Y
-                '                    vbDrawCC.LineTo X1, y1
-                '                Next
-                J = 2
-                Do
-                    'If .LToCT(J) = 1 Then
-                        x1 = .tVertex(J).x + .Pos.x
-                        y1 = .tVertex(J).y + .Pos.y
+                    x1 = .tVertex(1).X + .Pos.X
+                    y1 = .tVertex(1).Y + .Pos.Y
+                    vbDrawCC.MoveTo x1, y1
+                    '                For J = 2 To .Nvertex 'STADARD
+                    '                    X1 = .tVertex(J).X + .Pos.X
+                    '                    y1 = .tVertex(J).Y + .Pos.Y
+                    '                    vbDrawCC.LineTo X1, y1
+                    '                Next
+                    J = 2
+                    Do
+                        'If .LToCT(J) = 1 Then
+                        x1 = .tVertex(J).X + .Pos.X
+                        y1 = .tVertex(J).Y + .Pos.Y
                         vbDrawCC.LineTo x1, y1
                         J = J + 1
-'                    Else
-'                        x1 = .tVertex(J).x + .Pos.x
-'                        y1 = .tVertex(J).y + .Pos.y
-'                        J = J + 1
-'                        x2 = .tVertex(J).x + .Pos.x
-'                        y2 = .tVertex(J).y + .Pos.y
-'                        J = J + 1
-'                        x3 = .tVertex(J).x + .Pos.x
-'                        y3 = .tVertex(J).y + .Pos.y
-'                        vbDrawCC.CurveTo x1, y1, x2, y2, x3, y3
-'                        J = J + 1
-'                    End If
-                Loop While J <= .Nvertex
+                        '                    Else
+                        '                        x1 = .tVertex(J).x + .Pos.x
+                        '                        y1 = .tVertex(J).y + .Pos.y
+                        '                        J = J + 1
+                        '                        x2 = .tVertex(J).x + .Pos.x
+                        '                        y2 = .tVertex(J).y + .Pos.y
+                        '                        J = J + 1
+                        '                        x3 = .tVertex(J).x + .Pos.x
+                        '                        y3 = .tVertex(J).y + .Pos.y
+                        '                        vbDrawCC.CurveTo x1, y1, x2, y2, x3, y3
+                        '                        J = J + 1
+                        '                    End If
+                    Loop While J <= .Nvertex
 
 
-                vbDrawCC.Fill
-                'vbDrawCC.Stroke
+                    vbDrawCC.Fill
+                    'vbDrawCC.Stroke
 
 
-                vbDrawCC.SetSourceColor 0, 0.25
-                'vbDrawCC.Ellipse .Pos.x, .Pos.y, 3, 3
-                vbDrawCC.ARC .Pos.x, .Pos.y, 1.5
-                vbDrawCC.Fill
+                    vbDrawCC.SetSourceColor 0, 0.25
+                    'vbDrawCC.Ellipse .Pos.x, .Pos.y, 3, 3
+                    vbDrawCC.ARC .Pos.X, .Pos.Y, 1.5
+                    vbDrawCC.Fill
 
-                If .Nvertex > 4 Then vbDrawCC.DrawLine x1, y1, .Pos.x, .Pos.y, , , 0, 0.25
+                    If .Nvertex > 4 Then vbDrawCC.DrawLine x1, y1, .Pos.X, .Pos.Y, , , 0, 0.25
 
 
 
-End If
+                End If
 
 
 
@@ -3616,50 +3610,50 @@ End If
         With Joints(I)
             Select Case .JointType
 
-                Case JointDistance
-                    x1 = Body(.bA).Pos.x
-                    y1 = Body(.bA).Pos.y
-                    x2 = Body(.bB).Pos.x
-                    y2 = Body(.bB).Pos.y
-                    vbDrawCC.DrawLine x1, y1, x2, y2, , 5, vbBlue, 0.5
+            Case JointDistance
+                x1 = Body(.bA).Pos.X
+                y1 = Body(.bA).Pos.Y
+                x2 = Body(.bB).Pos.X
+                y2 = Body(.bB).Pos.Y
+                vbDrawCC.DrawLine x1, y1, x2, y2, , 5, vbBlue, 0.5
 
 
-                Case Joint2Pins
-                    x1 = Body(.bA).Pos.x + .tAnchA.x
-                    y1 = Body(.bA).Pos.y + .tAnchA.y
-                    x2 = Body(.bB).Pos.x + .tAnchB.x
-                    y2 = Body(.bB).Pos.y + .tAnchB.y
-                    vbDrawCC.DrawLine x1, y1, x2, y2, , 5, vbBlue, 0.5
+            Case Joint2Pins
+                x1 = Body(.bA).Pos.X + .tAnchA.X
+                y1 = Body(.bA).Pos.Y + .tAnchA.Y
+                x2 = Body(.bB).Pos.X + .tAnchB.X
+                y2 = Body(.bB).Pos.Y + .tAnchB.Y
+                vbDrawCC.DrawLine x1, y1, x2, y2, , 5, vbBlue, 0.5
 
-                Case Joint1Pin
-                    x1 = .AnchB.x
-                    y1 = .AnchB.y
-                    x2 = Body(.bA).Pos.x + .tAnchA.x
-                    y2 = Body(.bA).Pos.y + .tAnchA.y
-                    vbDrawCC.DrawLine x1, y1, x2, y2, , 5, vbBlue, 0.5
-                    vbDrawCC.SetSourceColor vbRed, 0.5
-                    'vbDrawCC.Ellipse x1, y1, 5, 5
-                    vbDrawCC.ARC x1, y1, 2.5
-                    vbDrawCC.Fill
+            Case Joint1Pin
+                x1 = .AnchB.X
+                y1 = .AnchB.Y
+                x2 = Body(.bA).Pos.X + .tAnchA.X
+                y2 = Body(.bA).Pos.Y + .tAnchA.Y
+                vbDrawCC.DrawLine x1, y1, x2, y2, , 5, vbBlue, 0.5
+                vbDrawCC.SetSourceColor vbRed, 0.5
+                'vbDrawCC.Ellipse x1, y1, 5, 5
+                vbDrawCC.ARC x1, y1, 2.5
+                vbDrawCC.Fill
 
-                Case Rotor1
+            Case Rotor1
 
-                    x2 = Body(.bA).Pos.x - .tAnchA.y
-                    y2 = Body(.bA).Pos.y + .tAnchA.x
-                    x1 = x2 - .tAnchA.x
-                    y1 = y2 - .tAnchA.y
-                    vbDrawCC.DrawLine x1, y1, x2, y2, , 4, vbRed, 0.5
+                x2 = Body(.bA).Pos.X - .tAnchA.Y
+                y2 = Body(.bA).Pos.Y + .tAnchA.X
+                x1 = x2 - .tAnchA.X
+                y1 = y2 - .tAnchA.Y
+                vbDrawCC.DrawLine x1, y1, x2, y2, , 4, vbRed, 0.5
 
-                Case Rotor2
-                    x1 = Body(.bA).Pos.x - .tAnchA.x
-                    y1 = Body(.bA).Pos.y - .tAnchA.y
-                    x2 = Body(.bB).Pos.x - .tAnchB.x
-                    y2 = Body(.bB).Pos.y - .tAnchB.y
-                    '                vbDrawCC.DrawLine x1, y1, x2, y2, , 3, vbBlue, 0.5
-                    vbDrawCC.SetSourceColor vbRed, 0.5
-                    vbDrawCC.ARC (x1 + x2) * 0.5, (y1 + y2) * 0.5, 6
+            Case Rotor2
+                x1 = Body(.bA).Pos.X - .tAnchA.X
+                y1 = Body(.bA).Pos.Y - .tAnchA.Y
+                x2 = Body(.bB).Pos.X - .tAnchB.X
+                y2 = Body(.bB).Pos.Y - .tAnchB.Y
+                '                vbDrawCC.DrawLine x1, y1, x2, y2, , 3, vbBlue, 0.5
+                vbDrawCC.SetSourceColor vbRed, 0.5
+                vbDrawCC.ARC (x1 + x2) * 0.5, (y1 + y2) * 0.5, 6
 
-                    vbDrawCC.Fill
+                vbDrawCC.Fill
 
             End Select
 
@@ -3667,17 +3661,12 @@ End If
     Next
 
 
-
     If MouseSelectedObj Then
         vbDrawCC.SetSourceColor vbRed
-        vbDrawCC.MoveTo Body(MouseSelectedObj).Pos.x + MouseDownRelX, Body(MouseSelectedObj).Pos.y + MouseDownRelY
+        vbDrawCC.MoveTo Body(MouseSelectedObj).Pos.X + MouseDownRelX, Body(MouseSelectedObj).Pos.Y + MouseDownRelY
         vbDrawCC.LineTo MouseMoveX, MouseMoveY
         vbDrawCC.Stroke
     End If
-
-
-
-
 
 
     '    vbDrawCC.TextOut 5, 5, S
@@ -3706,22 +3695,22 @@ End Sub
 
 
 
-Public Sub BodyGetNearest(x As Double, y As Double, retObj As Long, retRelX As Double, retRelY As Double)
+Public Sub BodyGetNearest(X As Double, Y As Double, retObj As Long, retRelX As Double, retRelY As Double)
 
-    Dim I   As Long
-    Dim J   As Long
+    Dim I       As Long
+    Dim J       As Long
 
-    Dim Dmin As Double
-    Dim D   As Double
-    Dim Dx  As Double
-    Dim DY  As Double
+    Dim Dmin    As Double
+    Dim D       As Double
+    Dim Dx      As Double
+    Dim DY      As Double
 
     Dmin = MAX_VALUE
 
     For I = 1 To NBodies
         If Body(I).myType = eCircle Then
-            Dx = x - Body(I).Pos.x
-            DY = y - Body(I).Pos.y
+            Dx = X - Body(I).Pos.X
+            DY = Y - Body(I).Pos.Y
             D = Dx * Dx + DY * DY
             If D < Dmin Then
                 Dmin = D
@@ -3731,10 +3720,10 @@ Public Sub BodyGetNearest(x As Double, y As Double, retObj As Long, retRelX As D
         Else
             For J = 1 To Body(I).Nvertex
 
-                Dx = x - Body(I).tVertex(J).x
-                DY = y - Body(I).tVertex(J).y
-                Dx = Dx - Body(I).Pos.x
-                DY = DY - Body(I).Pos.y
+                Dx = X - Body(I).tVertex(J).X
+                DY = Y - Body(I).tVertex(J).Y
+                Dx = Dx - Body(I).Pos.X
+                DY = DY - Body(I).Pos.Y
 
                 D = Dx * Dx + DY * DY
                 If D < Dmin Then
@@ -3743,8 +3732,8 @@ Public Sub BodyGetNearest(x As Double, y As Double, retObj As Long, retRelX As D
                 End If
             Next
 
-            Dx = x - Body(I).Pos.x
-            DY = y - Body(I).Pos.y
+            Dx = X - Body(I).Pos.X
+            DY = Y - Body(I).Pos.Y
             D = Dx * Dx + DY * DY
             If D < Dmin Then
                 Dmin = D
@@ -3757,17 +3746,301 @@ Public Sub BodyGetNearest(x As Double, y As Double, retObj As Long, retRelX As D
 
     Next
 
-    retRelX = x - Body(retObj).Pos.x
-    retRelY = y - Body(retObj).Pos.y
+    retRelX = X - Body(retObj).Pos.X
+    retRelY = Y - Body(retObj).Pos.Y
 
 
 End Sub
 
-Friend Function BodyGetPOS(wB) As tVec2
+Friend Function BodyGetPOS(wB As Long) As tVec2
     BodyGetPOS = Body(wB).Pos
 End Function
 
-Public Function BodyGetMass(wB) As Double
+Public Function BodyGetMass(wB As Long) As Double
     BodyGetMass = Body(wB).mass
 End Function
+
+
+Friend Function BodyGetVEL(wB As Long) As tVec2
+    BodyGetVEL = Body(wB).VEL
+End Function
+
+
+
+
+
+''Friend Sub RenderDRAWRCzoom(ZOOM As Double, Center As tVec2, Optional RefreshPicNow As Boolean = True)
+''    Dim x1      As Double
+''    Dim y1      As Double
+''    Dim x2      As Double
+''    Dim y2      As Double
+''    Dim x3      As Double
+''    Dim y3      As Double
+''
+''    Dim x1d     As Double
+''    Dim y1d     As Double
+''    Dim x2d     As Double
+''    Dim y2d     As Double
+''
+''
+''    Dim I       As Long
+''    Dim J       As Long
+''    Dim JJ      As Long
+''    Dim S       As String
+''
+''
+''    vbDrawCC.Save
+''    vbDrawCC.TranslateDrawings CenX - Center.X * ZOOM, CenY - Center.Y * ZOOM
+''    vbDrawCC.ScaleDrawings ZOOM, ZOOM
+''
+''    vbDrawCC.SetSourceColor 2631720    '0
+''    vbDrawCC.Paint
+''    vbDrawCC.SetLineWidth 1.25
+''
+''
+''    For I = 1 To NBodies
+''
+'''''        If I <> gPlayer Then
+''
+''            With Body(I)
+''
+''                If .myType = eCircle Then
+''
+''                    If .ImageExist Then
+''
+''
+''                        vbDrawCC.Save
+''                        vbDrawCC.TranslateDrawings .Pos.X + .ImageCenter.Y, _
+''                                                   .Pos.Y + .ImageCenter.Y
+''                        vbDrawCC.RotateDrawings .orient
+''                        vbDrawCC.RenderSurfaceContent ImageList(CStr(I)), -.ImageSize.X * 0.5, -.ImageSize.Y * 0.5
+''                        vbDrawCC.Restore
+''
+''                    Else
+''
+''                        x1 = .Pos.X
+''                        y1 = .Pos.Y
+''
+''                        vbDrawCC.SetSourceColor .color
+''                        ' vbDrawCC.Ellipse x1, y1, .Radius * 2, .Radius * 2
+''                        vbDrawCC.ARC x1, y1, .Radius
+''                        vbDrawCC.Fill
+''                        'vbDrawCC.Stroke
+''
+''                        x2 = x1 + .Radius * Cos(.orient)
+''                        y2 = y1 + .Radius * Sin(.orient)
+''                        vbDrawCC.DrawLine x1, y1, x2, y2, , , 0, 0.25
+''
+''                    End If
+''
+''
+''
+''                Else
+''
+''
+''                    If .ImageExist Then
+''                        vbDrawCC.Save
+''                        vbDrawCC.TranslateDrawings .Pos.X + .ImageCenter.Y, _
+''                                                   .Pos.Y + .ImageCenter.Y
+''                        vbDrawCC.RotateDrawings .orient
+''                        vbDrawCC.RenderSurfaceContent ImageList(CStr(I)), -.ImageSize.X * 0.5, -.ImageSize.Y * 0.5
+''                        vbDrawCC.Restore
+''
+''                    Else
+''
+''
+''
+''
+''                        '''' FILL
+''                        vbDrawCC.SetSourceColor .color
+''
+''                        x1 = .tVertex(1).X + .Pos.X
+''                        y1 = .tVertex(1).Y + .Pos.Y
+''                        vbDrawCC.MoveTo x1, y1
+''                        '                For J = 2 To .Nvertex 'STADARD
+''                        '                    X1 = .tVertex(J).X + .Pos.X
+''                        '                    y1 = .tVertex(J).Y + .Pos.Y
+''                        '                    vbDrawCC.LineTo X1, y1
+''                        '                Next
+''                        J = 2
+''                        Do
+''                            'If .LToCT(J) = 1 Then
+''                            x1 = .tVertex(J).X + .Pos.X
+''                            y1 = .tVertex(J).Y + .Pos.Y
+''                            vbDrawCC.LineTo x1, y1
+''                            J = J + 1
+''                            '                    Else
+''                            '                        x1 = .tVertex(J).x + .Pos.x
+''                            '                        y1 = .tVertex(J).y + .Pos.y
+''                            '                        J = J + 1
+''                            '                        x2 = .tVertex(J).x + .Pos.x
+''                            '                        y2 = .tVertex(J).y + .Pos.y
+''                            '                        J = J + 1
+''                            '                        x3 = .tVertex(J).x + .Pos.x
+''                            '                        y3 = .tVertex(J).y + .Pos.y
+''                            '                        vbDrawCC.CurveTo x1, y1, x2, y2, x3, y3
+''                            '                        J = J + 1
+''                            '                    End If
+''                        Loop While J <= .Nvertex
+''
+''
+''                        vbDrawCC.Fill
+''                        'vbDrawCC.Stroke
+''
+''
+''                        vbDrawCC.SetSourceColor 0, 0.25
+''                        'vbDrawCC.Ellipse .Pos.x, .Pos.y, 3, 3
+''                        vbDrawCC.ARC .Pos.X, .Pos.Y, 1.5
+''                        vbDrawCC.Fill
+''
+''                        If .Nvertex > 4 Then vbDrawCC.DrawLine x1, y1, .Pos.X, .Pos.Y, , , 0, 0.25
+''
+''
+''
+''                    End If
+''
+''
+''
+''
+''                End If
+''
+''            End With
+'''''        Else
+'''''        '********************************************************
+'''''        '********************************************************
+'''''        '********************************************************
+'''''
+'''''
+'''''
+'''''        '********************************************************
+'''''        '********************************************************
+'''''        '********************************************************
+'''''
+'''''        End If
+''
+''    Next
+''
+''
+''
+''
+''
+''
+''
+''
+''
+''
+''
+''
+''
+''
+''
+''
+''    '    ' DRAW Contact Points----------------------------------------------------------------------
+''    '    For I = 1 To NofContactMainFolds
+''    '        With Contacts(I)
+''    '            For J = 1 To .contactCount
+''    '                x1 = .contactsPTS(J).X
+''    '                y1 = .contactsPTS(J).Y
+''    '
+''    '
+''    '                x2 = x1 + .normal.X * (1 + .penetration * 25)
+''    '                y2 = y1 + .normal.Y * (1 + .penetration * 25)
+''    '
+''    '                vbDrawCC.DrawLine x1, y1, x2, y2, , 2, vbBlue, 0.5
+''    '            Next
+''    '        End With
+''    '    Next
+''    '    -------------------------------------------------------------------------------------------
+''
+''
+''
+''    '    For I = 1 To NJ
+''    '        With Joints(I)
+''    '            x1 = shape(.bA).Pos.x
+''    '            y1 = shape(.bA).Pos.y
+''    '            x2 = shape(.bB).Pos.x
+''    '            y2 = shape(.bB).Pos.y
+''    '            FastLine pHDC, x1, y1, x2, y2, 1, vbWhite
+''    '        End With
+''    '    Next
+''    For I = 1 To NJ
+''
+''        With Joints(I)
+''            Select Case .JointType
+''
+''            Case JointDistance
+''                x1 = Body(.bA).Pos.X
+''                y1 = Body(.bA).Pos.Y
+''                x2 = Body(.bB).Pos.X
+''                y2 = Body(.bB).Pos.Y
+''                vbDrawCC.DrawLine x1, y1, x2, y2, , 5, vbBlue, 0.5
+''
+''
+''            Case Joint2Pins
+''                x1 = Body(.bA).Pos.X + .tAnchA.X
+''                y1 = Body(.bA).Pos.Y + .tAnchA.Y
+''                x2 = Body(.bB).Pos.X + .tAnchB.X
+''                y2 = Body(.bB).Pos.Y + .tAnchB.Y
+''                vbDrawCC.DrawLine x1, y1, x2, y2, , 5, vbBlue, 0.5
+''
+''            Case Joint1Pin
+''                x1 = .AnchB.X
+''                y1 = .AnchB.Y
+''                x2 = Body(.bA).Pos.X + .tAnchA.X
+''                y2 = Body(.bA).Pos.Y + .tAnchA.Y
+''                vbDrawCC.DrawLine x1, y1, x2, y2, , 5, vbBlue, 0.5
+''                vbDrawCC.SetSourceColor vbRed, 0.5
+''                'vbDrawCC.Ellipse x1, y1, 5, 5
+''                vbDrawCC.ARC x1, y1, 2.5
+''                vbDrawCC.Fill
+''
+''            Case Rotor1
+''
+''                x2 = Body(.bA).Pos.X - .tAnchA.Y
+''                y2 = Body(.bA).Pos.Y + .tAnchA.X
+''                x1 = x2 - .tAnchA.X
+''                y1 = y2 - .tAnchA.Y
+''                vbDrawCC.DrawLine x1, y1, x2, y2, , 4, vbRed, 0.5
+''
+''            Case Rotor2
+''                x1 = Body(.bA).Pos.X - .tAnchA.X
+''                y1 = Body(.bA).Pos.Y - .tAnchA.Y
+''                x2 = Body(.bB).Pos.X - .tAnchB.X
+''                y2 = Body(.bB).Pos.Y - .tAnchB.Y
+''                '                vbDrawCC.DrawLine x1, y1, x2, y2, , 3, vbBlue, 0.5
+''                vbDrawCC.SetSourceColor vbRed, 0.5
+''                vbDrawCC.ARC (x1 + x2) * 0.5, (y1 + y2) * 0.5, 6
+''
+''                vbDrawCC.Fill
+''
+''            End Select
+''
+''        End With
+''    Next
+''
+''
+''
+''    If MouseSelectedObj Then
+''        vbDrawCC.SetSourceColor vbRed
+''        vbDrawCC.MoveTo Body(MouseSelectedObj).Pos.X + MouseDownRelX, Body(MouseSelectedObj).Pos.Y + MouseDownRelY
+''        vbDrawCC.LineTo MouseMoveX, MouseMoveY
+''        vbDrawCC.Stroke
+''    End If
+''
+''
+''
+''
+''    vbDrawCC.Restore
+''
+''
+''
+''
+''    '    vbDrawCC.TextOut 5, 5, S
+''    If RefreshPicNow Then vbDRAW.Srf.DrawToDC PicHDC
+''
+''    DoEvents
+''
+''
+''End Sub
+
 

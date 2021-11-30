@@ -245,23 +245,21 @@ End Sub
 Private Sub Form_Unload(Cancel As Integer)
 
     ENGINE.UnLoad
-
-
     End
 
 End Sub
 
-Private Sub PIC_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub PIC_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
     Dim EO  As Long
     Dim rX  As Double
     Dim rY  As Double
 
 
-    MouseDownX = x
-    MouseDownY = y
+    MouseDownX = X
+    MouseDownY = Y
 
 
-    ENGINE.BodyGetNearest x * 1, y * 1, EO, rX, rY
+    ENGINE.BodyGetNearest X * 1, Y * 1, EO, rX, rY
     ENGINE.MouseSelectedObj = EO
     ENGINE.MouseDownRelX = rX
     ENGINE.MouseDownRelY = rY
@@ -270,17 +268,17 @@ Private Sub PIC_MouseDown(Button As Integer, Shift As Integer, x As Single, y As
 
 End Sub
 
-Private Sub PIC_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
-    ENGINE.MouseMoveX = x
-    ENGINE.MouseMoveY = y
+Private Sub PIC_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    ENGINE.MouseMoveX = X
+    ENGINE.MouseMoveY = Y
 
 End Sub
 
-Private Sub PIC_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub PIC_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
     Dim Dx  As Double
     Dim DY  As Double
-    Dx = x - ENGINE.MouseDownRelX
-    DY = y - ENGINE.MouseDownRelY
+    Dx = X - ENGINE.MouseDownRelX
+    DY = Y - ENGINE.MouseDownRelY
     
 
     'ENGINE.BodyApplyImpulse SelectedObj, _
