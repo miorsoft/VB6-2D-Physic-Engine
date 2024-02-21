@@ -62,9 +62,6 @@ Public Type tMAT2
 End Type
 
 
-
-
-
 Public Const DT As Double = 1 / 4    '4    ' 1 / 20 '20    '1 / 24  '1/20  '1 / 10   '1 / 60
 Public Const Iterations As Long = 1   ' 2    ' 5 ' 20 '5   '10  '2    ' 4
 Public Const DefDensity As Double = 1
@@ -418,11 +415,8 @@ Public Sub InitMATH()
 '    Set New_c = New cConstructor
 '    Set Cairo = New_c.Cairo
 
-
-
     GRAVITY.X = 0
     GRAVITY.Y = 0.008 / DT
-
 
     RESTING = Vec2LengthSq(Vec2MUL(GRAVITY, DT)) + EPSILON
 

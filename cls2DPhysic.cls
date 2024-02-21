@@ -84,9 +84,6 @@ Private Type tMaterial
 End Type
 
 
-
-
-
 Private Contacts() As tManifold
 Public NofContactMainFolds As Long
 Public MAXNofContactMainFolds As Long
@@ -119,10 +116,8 @@ Private Type tBody
     invInertia  As Double
 
     ii          As Double
-
-
+    
     Area        As Double
-
 
     COM         As tVec2
 
@@ -137,7 +132,6 @@ Private Type tBody
     normals()   As tVec2
     Nvertex     As Long
     '------------------
-
 
     Pos         As tVec2
     VEL         As tVec2
@@ -217,15 +211,9 @@ Public MouseSelectedObj As Long
 '*************************************************************************
 
 
-
-
-
 Public TotalNContacts As Long
 
 Public Version  As String
-
-
-
 
 '**************************************************************
 '********************JOINTS *********************************
@@ -238,6 +226,7 @@ Private Enum eJointType
     Joint1Pin
     Rotor1
     Rotor2
+    Joint2PinsAligned
 End Enum
 
 
@@ -254,6 +243,7 @@ Private Type tJoint
 
     StifPULL    As Double
     StifPUSH    As Double
+    Align As tVec2
 End Type
 
 Private Joints() As tJoint
@@ -475,7 +465,7 @@ Private Sub collContactsINIT(wC As Long)
 
 
 End Sub
-Private Sub CollinfiniteMassCorrection(wC As Long)
+Private Sub CollInfiniteMassCorrection(wC As Long)
     Body(Contacts(wC).bodyA).VEL = Vec2(0, 0)
     Body(Contacts(wC).bodyB).VEL = Vec2(0, 0)
 End Sub
@@ -548,7 +538,7 @@ Private Sub collContactsApplyImpulse(wC As Long)
 
 
         If Equal(Body(A).invMass + Body(B).invMass, 0) Then
-            CollinfiniteMassCorrection wC
+            CollInfiniteMassCorrection wC
         Else
 
             For I = 1 To .contactCount
@@ -702,11 +692,6 @@ Private Sub collContactsApplyImpulse(wC As Long)
                         BodyApplyImpulse A, Vec2Negative(tangentImpulse), rA
                         BodyApplyImpulse B, tangentImpulse, rB
 
-
-
-
-
-
                     Else
                         Exit Sub    'Don't apply tiny friction impulses
                     End If
@@ -716,7 +701,6 @@ Private Sub collContactsApplyImpulse(wC As Long)
             Next
 
         End If
-
 
     End With
 
@@ -1078,7 +1062,6 @@ Private Function collCollisionSOLVE(wbA As Long, wbB As Long) As tManifold
             B = Body(wbA)    '*
             GoSub LABELCirclePolygon
             .normal = Vec2Negative(.normal)
-
 
 
         Case eCollisionPolygonPolygon    '3    ' PolygonPolygon
@@ -1711,8 +1694,8 @@ End Sub
 Private Function Clip2(N As tVec2, c As Double, face() As tVec2) As Long
     Dim sp      As Long
     Dim out(0 To 1) As tVec2
-    Dim d1      As Double
-    Dim d2      As Double
+    Dim D1      As Double
+    Dim D2      As Double
     Dim alpha   As Double
 
     '  uint32 sp = 0;
@@ -1727,15 +1710,15 @@ Private Function Clip2(N As tVec2, c As Double, face() As tVec2) As Long
     ' // d = ax + by - c
     ' real d1 = Dot( n, face[0] ) - c;
     ' real d2 = Dot( n, face[1] ) - c;
-    d1 = Vec2DOT(N, face(0)) - c
-    d2 = Vec2DOT(N, face(1)) - c
+    D1 = Vec2DOT(N, face(0)) - c
+    D2 = Vec2DOT(N, face(1)) - c
 
 
     '// If negative (behind plane) Clip2
     'if(d1 <= 0.0f) out[sp++] = face[0];
     'if(d2 <= 0.0f) out[sp++] = face[1];
-    If d1 <= 0 Then out(sp) = face(0): sp = sp + 1
-    If d2 <= 0 Then out(sp) = face(1): sp = sp + 1
+    If D1 <= 0 Then out(sp) = face(0): sp = sp + 1
+    If D2 <= 0 Then out(sp) = face(1): sp = sp + 1
 
 
     '// If the points are on different sides of the plane
@@ -1746,9 +1729,9 @@ Private Function Clip2(N As tVec2, c As Double, face() As tVec2) As Long
     '  out[sp] = face[0] + alpha * (face[1] - face[0]);
     '  ++sp;
     '}
-    If d1 * d2 < 0 Then
+    If D1 * D2 < 0 Then
 
-        alpha = d1 / (d1 - d2)
+        alpha = D1 / (D1 - D2)
         out(sp) = Vec2ADD(face(0), Vec2MUL(Vec2SUB(face(1), face(0)), alpha))
         sp = sp + 1
     End If
@@ -1915,7 +1898,7 @@ Public Sub BodySetStatic(wB As Long)
         .invInertia = 0
         .mass = 0
         .invMass = 0
-    End With
+        End With
 
 End Sub
 
@@ -2423,10 +2406,6 @@ Public Sub BodyChamfer(wB As Long, Radius As Double, _
 
     With Body(wB)
 
-
-
-
-
         For I = 1 To .Nvertex
             Vertex = .Vertex(I)
             If I = .Nvertex Then nextVertex = .Vertex(1) Else: nextVertex = .Vertex(I + 1)
@@ -2572,10 +2551,8 @@ Public Sub EngineINIT(PIC As PictureBox)
     Set FPSTICK = New clsTick
 
     tComputed = FPSTICK.Add(800)
-    tDraw = FPSTICK.Add(30)
+    tDraw = FPSTICK.Add(25) '(30)
     t1Sec = FPSTICK.Add(1)
-
-
 
 
 End Sub
@@ -2630,13 +2607,9 @@ Public Sub EngineDoSTEP()
                         tmpContacts = collCollisionSOLVE(I, J)
 
 
-
-
                         If tmpContacts.contactCount > 0 Then
                             NofContactMainFolds = NofContactMainFolds + 1
                             If NofContactMainFolds > MAXNofContactMainFolds Then
-
-
 
                                 MAXNofContactMainFolds = NofContactMainFolds + 20
                                 ReDim Preserve Contacts(MAXNofContactMainFolds)
@@ -2644,11 +2617,9 @@ Public Sub EngineDoSTEP()
 
                             Contacts(NofContactMainFolds) = tmpContacts
 
-
                         End If
 
                     End If
-
 
                 End If
             End If
@@ -2991,6 +2962,22 @@ Public Sub JointAddDistanceJ(bA As Long, bB As Long, D As Double, Optional Stiff
     End With
 End Sub
 
+Friend Sub JointAdd2PinsAlignedJ(bA As Long, bB As Long, D As Double, Align As tVec2, Optional StiffPull As Double = 1, Optional stiffPush As Double = 1)
+    NJ = NJ + 1
+    ReDim Preserve Joints(NJ)
+    With Joints(NJ)
+        .JointType = Joint2PinsAligned
+        .bA = bA
+        .bB = bB
+        .L = D
+        .StifPULL = StiffPull
+        .StifPUSH = stiffPush
+        .AnchA = Vec2(0, 0)
+        .AnchB = Vec2(0, 0)
+.Align = Align
+    End With
+End Sub
+
 Friend Sub JointAdd2PinsJ(bA As Long, AnchA As tVec2, bB As Long, AnchB As tVec2, D As Double, _
                           Optional StiffPull As Double = 1, Optional stiffPush As Double = 1)
     NJ = NJ + 1
@@ -3055,26 +3042,30 @@ Private Sub JointsResolve()
 
 'By Roberto Mior (aka reexre,miorsoft)
 
-    Dim I       As Long
-    Dim J       As Long
+    Dim I         As Long
+    Dim J         As Long
 
-    Dim D       As Double
-    Dim N       As tVec2
-    Dim V       As tVec2
+    Dim D         As Double
+    Dim F1#, F2#
+    Dim N         As tVec2
+    Dim V         As tVec2
 
-    Dim Center  As tVec2
-    Dim FIXa    As tVec2
-    Dim FIXb    As tVec2
+    Dim Center    As tVec2
+    Dim FIXa      As tVec2
+    Dim FIXb      As tVec2
 
-    Dim vAprj   As tVec2
-    Dim vBprj   As tVec2
-    Dim RVA     As tVec2
-    Dim RVB     As tVec2
-    Dim Axe     As tVec2
+    Dim vAprj     As tVec2
+    Dim vBprj     As tVec2
+    Dim RVA       As tVec2
+    Dim RVB       As tVec2
+    Dim Axe       As tVec2
 
-    Dim Tmass   As Double
-    Dim ORI     As tMAT2
-    Dim RotDiff As Double
+    Dim Tmass     As Double
+    Dim ORI       As tMAT2
+    Dim ORIA      As tMAT2
+Dim InvMassSUM As Double
+
+    Dim RotDiff   As Double
 
 
     For I = 1 To NJ
@@ -3123,7 +3114,7 @@ Private Sub JointsResolve()
 
                 V = Vec2MUL(Body(.bA).VEL, KDamp * INVdt)
                 'V = VectorProject(V, .tAnchA) ' -------------------------removed Ver 1.0.147
-                FIXa = Vec2ADD(FIXa, V)   '.------------------<<<<<<<
+                FIXa = Vec2ADD(FIXa, V)          '.------------------<<<<<<<
 
 
                 ORI = SetOrient(Body(.bB).orient + Body(.bB).angularVelocity * KDamp * INVdt)
@@ -3133,7 +3124,7 @@ Private Sub JointsResolve()
                 FIXb = Vec2ADD(Body(.bB).Pos, .tAnchB)
                 V = Vec2MUL(Body(.bB).VEL, KDamp * INVdt)
                 'V = VectorProject(V, .tAnchB) ' -------------------------removed Ver 1.0.147
-                FIXb = Vec2ADD(FIXb, V)   '.------------------<<<<<<<
+                FIXb = Vec2ADD(FIXb, V)          '.------------------<<<<<<<
 
                 'vAprj = VectorProject(Body(.bA).VEL, .tAnchA)
                 'vBprj = VectorProject(Body(.bB).VEL, .tAnchB)
@@ -3161,17 +3152,34 @@ Private Sub JointsResolve()
 
                 D = Vec2Length(N)
                 If D Then N = Vec2MUL(N, 1 / D)
-                D = (D - .L) * (Body(.bA).mass + Body(.bB).mass) * KMASS
+                D = (D - .L) ' * (Body(.bA).mass + Body(.bB).mass) * KMASS
                 If D > 0 Then
                     D = D * .StifPULL
                 Else
                     D = D * .StifPUSH
-                End If
+                End If '
+                
+                
 
+                
+'                BodyApplyImpulse .bA, Vec2MUL(N, -D), .tAnchA
+'                BodyApplyImpulse .bB, Vec2MUL(N, D), .tAnchB
 
-                BodyApplyImpulse .bA, Vec2MUL(N, -D), .tAnchA
-                BodyApplyImpulse .bB, Vec2MUL(N, D), .tAnchB
+InvMassSUM = 1 / (Body(.bA).mass + Body(.bB).mass)
+If Body(.bB).mass <> 0 Then
+F1 = D * Body(.bB).mass * InvMassSUM * 500
+Else
+F1 = D * 1000
+End If
+If Body(.bA).mass <> 0 Then
+F2 = D * Body(.bA).mass * InvMassSUM * 500
+Else
+F2 = D * 1000
+End If
 
+                BodyApplyImpulse .bA, Vec2MUL(N, -F1), .tAnchA
+                BodyApplyImpulse .bB, Vec2MUL(N, F2), .tAnchB
+'-----------------------
 
             Case Joint1Pin
 
@@ -3181,7 +3189,7 @@ Private Sub JointsResolve()
                 '                    .tAnchA = matMULv(Body(.bA).U + Body(.bA).angularVelocity, .AnchA)
                 .tAnchA = matMULv(ORI, .AnchA)
 
-                Axe = .tAnchA    ' -------------------------removed Ver 1.0.147
+                Axe = .tAnchA                    ' -------------------------removed Ver 1.0.147
 
 
                 ''''vAprj = VectorProject(Vec2MUL(Body(.bA).VEL, 1 * 1), Axe)'---TOLTO
@@ -3192,7 +3200,7 @@ Private Sub JointsResolve()
                 V = Vec2MUL(Body(.bA).VEL, KDamp * INVdt)
                 'V = VectorProject(V, .tAnchA)' -------------------------removed Ver 1.0.147
 
-                FIXa = Vec2ADD(FIXa, V)   '.------------------<<<<<<<
+                FIXa = Vec2ADD(FIXa, V)          '.------------------<<<<<<<
                 'FIXa = Vec2ADD(Body(.bA).Pos, Vec2ADD(.tAnchA, RVA))
                 N = Vec2SUB(FIXa, .AnchB)
 
@@ -3211,7 +3219,7 @@ Private Sub JointsResolve()
                     D = D * .StifPUSH
                 End If
 
-                N = Vec2Normalize(N)    '*************************************
+                N = Vec2Normalize(N)             '*************************************
                 BodyApplyImpulse .bA, Vec2MUL(N, -D), .tAnchA
 
 
@@ -3247,7 +3255,7 @@ Private Sub JointsResolve()
                 FIXa = Vec2ADD(Body(.bA).Pos, .tAnchA)
                 V = Vec2MUL(Body(.bA).VEL, KDamp * INVdt)
                 'V = VectorProject(V, .tAnchA)
-                FIXa = Vec2ADD(FIXa, V)   '.------------------<<<<<<<
+                FIXa = Vec2ADD(FIXa, V)          '.------------------<<<<<<<
 
                 ORI = SetOrient(Body(.bB).orient + Body(.bB).angularVelocity * KDamp * INVdt)
                 '.tAnchB = matMULv(Body(.bB).U, .AnchB)
@@ -3256,7 +3264,7 @@ Private Sub JointsResolve()
                 FIXb = Vec2ADD(Body(.bB).Pos, .tAnchB)
                 V = Vec2MUL(Body(.bB).VEL, KDamp * INVdt)
                 'V = VectorProject(V, .tAnchB)
-                FIXb = Vec2ADD(FIXb, V)   '.------------------<<<<<<<
+                FIXb = Vec2ADD(FIXb, V)          '.------------------<<<<<<<
 
                 Axe = Vec2SUB(FIXb, FIXa)
 
@@ -3303,6 +3311,60 @@ Private Sub JointsResolve()
                 N.Y = .tAnchB.X
                 N = Vec2MUL(N, -RotDiff)
                 BodyApplyImpulse .bB, N, Vec2ADD(.tAnchB, Body(.bB).VEL)
+
+            Case Joint2PinsAligned
+                ORIA = SetOrient(Body(.bA).orient + Body(.bA).angularVelocity * KDamp * INVdt)
+                .tAnchA = matMULv(ORIA, .AnchA)
+                FIXa = Vec2ADD(Body(.bA).Pos, .tAnchA)
+                V = Vec2MUL(Body(.bA).VEL, KDamp * INVdt)
+                FIXa = Vec2ADD(FIXa, V)          '.------------------<<<<<<<
+
+
+                ORI = SetOrient(Body(.bB).orient + Body(.bB).angularVelocity * KDamp * INVdt)
+                .tAnchB = matMULv(ORI, .AnchB)
+                FIXb = Vec2ADD(Body(.bB).Pos, .tAnchB)
+                V = Vec2MUL(Body(.bB).VEL, KDamp * INVdt)
+                FIXb = Vec2ADD(FIXb, V)          '.------------------<<<<<<<
+
+' --- As 2Pin Simple
+                N = Vec2SUB(FIXa, FIXb)
+                D = Vec2Length(N)
+                If D Then N = Vec2MUL(N, 1 / D)
+                D = (D - .L) '* (Body(.bA).mass + Body(.bB).mass) * KMASS
+                If D > 0 Then
+                    D = D * .StifPULL
+                Else
+                    D = D * .StifPUSH
+                End If
+Stop
+
+InvMassSUM = 1 / (Body(.bA).mass + Body(.bB).mass)
+F1 = D * Body(.bB).mass * InvMassSUM * 10000
+F2 = D * Body(.bA).mass * InvMassSUM * 10000
+                BodyApplyImpulse .bA, Vec2MUL(N, -F1), .tAnchA
+                BodyApplyImpulse .bB, Vec2MUL(N, F2), .tAnchB
+'-----------------------
+
+
+
+
+''D = Body(.bA).orient
+''
+''
+''FIXb = Vec2ADD(FIXa, Vec2(Cos(D) * .L, Sin(D) * .L))
+''
+''                N = Vec2SUB(FIXa, FIXb)
+''                D = Vec2Length(N)
+''                If D Then N = Vec2MUL(N, 1 / D)
+''                D = (D - .L) * (Body(.bA).mass + Body(.bB).mass) * KMASS
+'''                If D > 0 Then
+'''                    D = D * .StifPULL
+'''                Else
+'''                    D = D * .StifPUSH
+'''                End If
+''
+'''                BodyApplyImpulse .bA, Vec2MUL(N, -D), .tAnchA
+''                BodyApplyImpulse .bB, Vec2MUL(N, D), .tAnchB
 
 
             End Select
@@ -3544,7 +3606,7 @@ Public Sub RenderDRAWRC(Optional RefreshPicNow As Boolean = True)
 
                     vbDrawCC.SetSourceColor 0, 0.25
                     'vbDrawCC.Ellipse .Pos.x, .Pos.y, 3, 3
-                    vbDrawCC.ARC .Pos.X, .Pos.Y, 1.5
+                    vbDrawCC.Arc .Pos.X, .Pos.Y, 1.5
                     vbDrawCC.Fill
 
                     If .Nvertex > 4 Then vbDrawCC.DrawLine x1, y1, .Pos.X, .Pos.Y, , , 0, 0.25
@@ -3633,7 +3695,7 @@ Public Sub RenderDRAWRC(Optional RefreshPicNow As Boolean = True)
                 vbDrawCC.DrawLine x1, y1, x2, y2, , 5, vbBlue, 0.5
                 vbDrawCC.SetSourceColor vbRed, 0.5
                 'vbDrawCC.Ellipse x1, y1, 5, 5
-                vbDrawCC.ARC x1, y1, 2.5
+                vbDrawCC.Arc x1, y1, 2.5
                 vbDrawCC.Fill
 
             Case Rotor1
@@ -3651,7 +3713,7 @@ Public Sub RenderDRAWRC(Optional RefreshPicNow As Boolean = True)
                 y2 = Body(.bB).Pos.Y - .tAnchB.Y
                 '                vbDrawCC.DrawLine x1, y1, x2, y2, , 3, vbBlue, 0.5
                 vbDrawCC.SetSourceColor vbRed, 0.5
-                vbDrawCC.ARC (x1 + x2) * 0.5, (y1 + y2) * 0.5, 6
+                vbDrawCC.Arc (x1 + x2) * 0.5, (y1 + y2) * 0.5, 6
 
                 vbDrawCC.Fill
 
@@ -3759,7 +3821,6 @@ End Function
 Public Function BodyGetMass(wB As Long) As Double
     BodyGetMass = Body(wB).mass
 End Function
-
 
 Friend Function BodyGetVEL(wB As Long) As tVec2
     BodyGetVEL = Body(wB).VEL

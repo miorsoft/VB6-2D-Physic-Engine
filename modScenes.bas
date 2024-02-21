@@ -198,7 +198,7 @@ Public Sub CreateScene(Scene As Long)
             .BodySetCollideWith .NofBodies - 1, ALL - .BiggerGroup      '=4
             .BodySetCollideWith .NofBodies, ALL - .BiggerGroup \ 2      '=2
 
-            .BodyCREATEBox Vec2(100, 200), 150, 40
+            .BodyCREATEBox Vec2(100, 200), 150, 20 '40
             .BodyCREATECircle Vec2(100 - 50, 230), 20   'WHEEL
             .BodySetGroup .NofBodies - 1, .BiggerGroup * 2
             .BodySetGroup .NofBodies, .BiggerGroup * 2
@@ -284,7 +284,7 @@ Public Sub CreateScene(Scene As Long)
 
 
             CarL = 111 '80
-            CarH = 25 '30
+            CarH = 15 '25 '30
             WDX = 30
             WDY = 20
             WR = 15
@@ -353,6 +353,36 @@ Public Sub CreateScene(Scene As Long)
          ''  .BodySetStatic .NofBodies
             .BodySetGroup .NofBodies, 1
             .BodySetCollideWith .NofBodies, ALL
+
+
+
+
+
+        Case 11    '"2 Pins Joints"
+
+            'Floor
+            .BodyCREATEBox Vec2(PicW * 0.5, PicH - 15), PicW * 0.9, 25
+            .BodySetStatic 1
+
+            .BodyCREATEBox Vec2(PicW * 0.5 + 20, PicH * 0.25), 50, 20
+            .JointAdd1PinJ .NofBodies, Vec2(-20, 0), 40, 0.01, 0
+
+            For I = 1 To 2
+                .BodyCREATEBox Vec2(PicW * 0.5 + 20 + 70 * I, PicH * 0.25), 50, 20
+                ' .JointAdd1PinJ  .NofBodies, Vec2(-20, 0), 40, 0.01, 0
+              
+            Next
+
+  .JointAdd2PinsJ .NofBodies - 2, Vec2(20, 0), _
+                                .NofBodies - 1, Vec2(-20, 0), 30, 1, 0
+
+
+ .JointAdd2PinsAlignedJ .NofBodies, .NofBodies - 1, 60, Vec2(1, 0), 0.01, 0.01
+
+            For I = 1 To .NofBodies
+                .BodySetGroup I, 1
+                .BodySetCollideWith I, ALL
+            Next
 
 
         End Select

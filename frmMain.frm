@@ -221,8 +221,10 @@ Private Sub Form_Load()
     cmbScene.AddItem "Newton Cardle"
     cmbScene.AddItem "(Rotor2)"
     cmbScene.AddItem "CAR2"
+    cmbScene.AddItem "TEST"
     
-    cmbScene.ListIndex = 1
+    
+    cmbScene.ListIndex = 4
 
     ENGINE.RenderCreateIntroFrames
 
